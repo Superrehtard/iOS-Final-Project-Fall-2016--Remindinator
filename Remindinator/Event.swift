@@ -7,13 +7,14 @@
 //
 
 import Foundation
-class Events{
+class Event {
     var eventName:String
     var dueDate:NSDate
     var description:String
     var location:String
-    var tasks:[Tasks]
-    init(eventName:String, dueDate:NSDate, description:String, location: String, tasks:[Tasks]){
+    var tasks:[Task]
+    
+    init(eventName:String, dueDate:NSDate, description:String, location: String, tasks:[Task]){
         self.eventName = eventName
         self.dueDate = dueDate
         self.description = description

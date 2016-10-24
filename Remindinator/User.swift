@@ -12,6 +12,7 @@ class User{
     var lastName:String
     var emailId:String
     var password:String
+    
     init(firstName:String, lastName:String, emailId:String, password:String){
         self.firstName = firstName
         self.lastName = lastName

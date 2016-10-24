@@ -7,12 +7,13 @@
 //
 
 import Foundation
-class Tasks{
+class Task {
     var isCompleted:Bool
     var dateFrom:NSDate
     var dateTo:NSDate
     var taskID:String
     var taskName:String
+    
     init(isCompleted:Bool, dateFrom:NSDate, dateTo:NSDate, taskID:String,taskName:String){
         self.isCompleted = isCompleted
         self.dateFrom = dateFrom
