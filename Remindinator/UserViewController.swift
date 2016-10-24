@@ -20,7 +20,15 @@ class UserViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "dashBoard"{
+            
+        let dashBoardTVC = segue.destinationViewController as! myEventsTableTableViewController
+        }
+        if segue.identifier == "myEvents"{
+        let myEventsTVC = segue.destinationViewController as! DashBooardTableViewController
+        }
+    }
 
     /*
     // MARK: - Navigation
