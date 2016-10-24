@@ -12,9 +12,9 @@
 		B22D4E431DBD805300AF0297 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B22D4E411DBD805300AF0297 /* Main.storyboard */; };
 		B22D4E461DBD805300AF0297 /* Remindinator.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B22D4E441DBD805300AF0297 /* Remindinator.xcdatamodeld */; };
 		B22D4E481DBD805400AF0297 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B22D4E471DBD805400AF0297 /* Assets.xcassets */; };
-		B22D4E4B1DBD805400AF0297 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B22D4E491DBD805400AF0297 /* LaunchScreen.storyboard */; };
 		B22D4E561DBD805400AF0297 /* RemindinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D4E551DBD805400AF0297 /* RemindinatorTests.swift */; };
 		B22D4E611DBD805400AF0297 /* RemindinatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D4E601DBD805400AF0297 /* RemindinatorUITests.swift */; };
+		B22D4E6F1DBD888F00AF0297 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B22D4E6E1DBD888F00AF0297 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +41,6 @@
 		B22D4E421DBD805300AF0297 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B22D4E451DBD805300AF0297 /* Remindinator.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Remindinator.xcdatamodel; sourceTree = "<group>"; };
 		B22D4E471DBD805400AF0297 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B22D4E4A1DBD805400AF0297 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B22D4E4C1DBD805400AF0297 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B22D4E511DBD805400AF0297 /* RemindinatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RemindinatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B22D4E551DBD805400AF0297 /* RemindinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindinatorTests.swift; sourceTree = "<group>"; };
@@ -49,6 +48,7 @@
 		B22D4E5C1DBD805400AF0297 /* RemindinatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RemindinatorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B22D4E601DBD805400AF0297 /* RemindinatorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindinatorUITests.swift; sourceTree = "<group>"; };
 		B22D4E621DBD805400AF0297 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B22D4E6E1DBD888F00AF0297 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,9 +103,9 @@
 				B22D4E3F1DBD805300AF0297 /* ViewController.swift */,
 				B22D4E411DBD805300AF0297 /* Main.storyboard */,
 				B22D4E471DBD805400AF0297 /* Assets.xcassets */,
-				B22D4E491DBD805400AF0297 /* LaunchScreen.storyboard */,
 				B22D4E4C1DBD805400AF0297 /* Info.plist */,
 				B22D4E441DBD805300AF0297 /* Remindinator.xcdatamodeld */,
+				B22D4E6E1DBD888F00AF0297 /* Launch Screen.storyboard */,
 			);
 			path = Remindinator;
 			sourceTree = "<group>";
@@ -232,7 +232,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B22D4E4B1DBD805400AF0297 /* LaunchScreen.storyboard in Resources */,
+				B22D4E6F1DBD888F00AF0297 /* Launch Screen.storyboard in Resources */,
 				B22D4E481DBD805400AF0297 /* Assets.xcassets in Resources */,
 				B22D4E431DBD805300AF0297 /* Main.storyboard in Resources */,
 			);
@@ -303,14 +303,6 @@
 				B22D4E421DBD805300AF0297 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		B22D4E491DBD805400AF0297 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B22D4E4A1DBD805400AF0297 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
