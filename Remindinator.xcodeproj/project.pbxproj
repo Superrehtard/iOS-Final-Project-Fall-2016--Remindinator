@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5EA30B841DBD8B7900FCEC4E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA30B831DBD8B7900FCEC4E /* User.swift */; };
+		5EA30B861DBD8C2000FCEC4E /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA30B851DBD8C2000FCEC4E /* Events.swift */; };
+		5EA30B881DBD8CC900FCEC4E /* Tasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA30B871DBD8CC900FCEC4E /* Tasks.swift */; };
 		B22D4E3E1DBD805300AF0297 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D4E3D1DBD805300AF0297 /* AppDelegate.swift */; };
 		B22D4E401DBD805300AF0297 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D4E3F1DBD805300AF0297 /* ViewController.swift */; };
 		B22D4E431DBD805300AF0297 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B22D4E411DBD805300AF0297 /* Main.storyboard */; };
@@ -35,6 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5EA30B831DBD8B7900FCEC4E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		5EA30B851DBD8C2000FCEC4E /* Events.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
+		5EA30B871DBD8CC900FCEC4E /* Tasks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tasks.swift; sourceTree = "<group>"; };
 		B22D4E3A1DBD805300AF0297 /* Remindinator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Remindinator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B22D4E3D1DBD805300AF0297 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B22D4E3F1DBD805300AF0297 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +108,9 @@
 				B22D4E3D1DBD805300AF0297 /* AppDelegate.swift */,
 				B22D4E3F1DBD805300AF0297 /* ViewController.swift */,
 				B22D4E411DBD805300AF0297 /* Main.storyboard */,
+				5EA30B831DBD8B7900FCEC4E /* User.swift */,
+				5EA30B851DBD8C2000FCEC4E /* Events.swift */,
+				5EA30B871DBD8CC900FCEC4E /* Tasks.swift */,
 				B22D4E471DBD805400AF0297 /* Assets.xcassets */,
 				B22D4E4C1DBD805400AF0297 /* Info.plist */,
 				B22D4E441DBD805300AF0297 /* Remindinator.xcdatamodeld */,
@@ -259,9 +268,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EA30B841DBD8B7900FCEC4E /* User.swift in Sources */,
 				B22D4E401DBD805300AF0297 /* ViewController.swift in Sources */,
 				B22D4E3E1DBD805300AF0297 /* AppDelegate.swift in Sources */,
 				B22D4E461DBD805300AF0297 /* Remindinator.xcdatamodeld in Sources */,
+				5EA30B881DBD8CC900FCEC4E /* Tasks.swift in Sources */,
+				5EA30B861DBD8C2000FCEC4E /* Events.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,6 +492,7 @@
 				B22D4E671DBD805400AF0297 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B22D4E681DBD805400AF0297 /* Build configuration list for PBXNativeTarget "RemindinatorTests" */ = {
 			isa = XCConfigurationList;
@@ -488,6 +501,7 @@
 				B22D4E6A1DBD805400AF0297 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B22D4E6B1DBD805400AF0297 /* Build configuration list for PBXNativeTarget "RemindinatorUITests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +510,7 @@
 				B22D4E6D1DBD805400AF0297 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
