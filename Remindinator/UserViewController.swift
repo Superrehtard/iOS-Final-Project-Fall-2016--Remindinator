@@ -21,11 +21,11 @@ class UserViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "dashBoard"{
+        if segue.identifier == "myEvents"{
             
         let dashBoardTVC = segue.destinationViewController as! myEventsTableTableViewController
         }
-        if segue.identifier == "myEvents"{
+        if segue.identifier == "dashBoard"{
         let myEventsTVC = segue.destinationViewController as! DashBooardTableViewController
         }
     }
