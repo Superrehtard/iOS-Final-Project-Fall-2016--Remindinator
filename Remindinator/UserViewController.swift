@@ -9,7 +9,10 @@
 import UIKit
 
 class UserViewController: UIViewController {
+    
+    var userFullName:String!
 
+    @IBOutlet weak var userFullNameLBL: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,13 +23,21 @@ class UserViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func editAvatar(sender: AnyObject) {
+//        let image = UIImage()
+        let controller = UIImagePickerController()
+        
+        self.presentViewController(controller, animated: true, completion: nil)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "myEvents"{
             
-        let dashBoardTVC = segue.destinationViewController as! myEventsTableTableViewController
+//        let dashBoardTVC = segue.destinationViewController as! myEventsTableTableViewController
         }
         if segue.identifier == "dashBoard"{
-        let myEventsTVC = segue.destinationViewController as! DashBooardTableViewController
+//        let myEventsTVC = segue.destinationViewController as! DashBooardTableViewController
         }
     }
 

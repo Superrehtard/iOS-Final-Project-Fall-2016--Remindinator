@@ -7,11 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5EA30B841DBD8B7900FCEC4E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA30B831DBD8B7900FCEC4E /* User.swift */; };
-		5EA30B861DBD8C2000FCEC4E /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA30B851DBD8C2000FCEC4E /* Event.swift */; };
-		5EA30B881DBD8CC900FCEC4E /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA30B871DBD8CC900FCEC4E /* Task.swift */; };
 		5EA30B8A1DBDAE9500FCEC4E /* myEventsTableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA30B891DBDAE9500FCEC4E /* myEventsTableTableViewController.swift */; };
-		5EA30B8C1DBDAEB600FCEC4E /* DashBooardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA30B8B1DBDAEB600FCEC4E /* DashBooardTableViewController.swift */; };
 		5EC9EB381DBFE923004BDD6F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EC9EB2F1DBFE923004BDD6F /* AudioToolbox.framework */; };
 		5EC9EB391DBFE923004BDD6F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EC9EB301DBFE923004BDD6F /* CFNetwork.framework */; };
 		5EC9EB3A1DBFE923004BDD6F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EC9EB311DBFE923004BDD6F /* CoreData.framework */; };
@@ -27,6 +23,9 @@
 		5EC9EB4C1DBFEA53004BDD6F /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EC9EB4A1DBFEA53004BDD6F /* Parse.framework */; };
 		5EC9EB4E1DBFEE12004BDD6F /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC9EB4D1DBFEE12004BDD6F /* RegistrationViewController.swift */; };
 		5EC9EB501DBFFE7A004BDD6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5EC9EB4F1DBFFE7A004BDD6F /* Main.storyboard */; };
+		72C0AFAC1DC162150097D469 /* AddNewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C0AFAB1DC162150097D469 /* AddNewEventViewController.swift */; };
+		72C0AFAE1DC16CC20097D469 /* DashboardEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C0AFAD1DC16CC20097D469 /* DashboardEvent.swift */; };
+		72C0AFB01DC173550097D469 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C0AFAF1DC173550097D469 /* DashboardViewController.swift */; };
 		72F8678B1DBD95C800AEB80A /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F8678A1DBD95C800AEB80A /* UserViewController.swift */; };
 		B22D4E3E1DBD805300AF0297 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D4E3D1DBD805300AF0297 /* AppDelegate.swift */; };
 		B22D4E401DBD805300AF0297 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D4E3F1DBD805300AF0297 /* LoginViewController.swift */; };
@@ -55,11 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5EA30B831DBD8B7900FCEC4E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		5EA30B851DBD8C2000FCEC4E /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
-		5EA30B871DBD8CC900FCEC4E /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		5EA30B891DBDAE9500FCEC4E /* myEventsTableTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = myEventsTableTableViewController.swift; sourceTree = "<group>"; };
-		5EA30B8B1DBDAEB600FCEC4E /* DashBooardTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBooardTableViewController.swift; sourceTree = "<group>"; };
 		5EC9EB2F1DBFE923004BDD6F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		5EC9EB301DBFE923004BDD6F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		5EC9EB311DBFE923004BDD6F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -75,6 +70,9 @@
 		5EC9EB4A1DBFEA53004BDD6F /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		5EC9EB4D1DBFEE12004BDD6F /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		5EC9EB4F1DBFFE7A004BDD6F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		72C0AFAB1DC162150097D469 /* AddNewEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewEventViewController.swift; sourceTree = "<group>"; };
+		72C0AFAD1DC16CC20097D469 /* DashboardEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardEvent.swift; sourceTree = "<group>"; };
+		72C0AFAF1DC173550097D469 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		72F8678A1DBD95C800AEB80A /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		B22D4E3A1DBD805300AF0297 /* Remindinator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Remindinator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B22D4E3D1DBD805300AF0297 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -129,7 +127,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B22D4E311DBD805300AF0297 = {
+		72B4F1E31DC09B5700654505 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				5EC9EB411DBFE933004BDD6F /* libsqlite3.tbd */,
@@ -145,6 +143,33 @@
 				5EC9EB351DBFE923004BDD6F /* Security.framework */,
 				5EC9EB361DBFE923004BDD6F /* StoreKit.framework */,
 				5EC9EB371DBFE923004BDD6F /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		72C0AFB11DC178C50097D469 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				72C0AFAF1DC173550097D469 /* DashboardViewController.swift */,
+				5EC9EB4D1DBFEE12004BDD6F /* RegistrationViewController.swift */,
+				72C0AFAB1DC162150097D469 /* AddNewEventViewController.swift */,
+				B22D4E3F1DBD805300AF0297 /* LoginViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		72C0AFB21DC178FB0097D469 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				72C0AFAD1DC16CC20097D469 /* DashboardEvent.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		B22D4E311DBD805300AF0297 = {
+			isa = PBXGroup;
+			children = (
+				72B4F1E31DC09B5700654505 /* Frameworks */,
 				B22D4E3C1DBD805300AF0297 /* Remindinator */,
 				B22D4E541DBD805400AF0297 /* RemindinatorTests */,
 				B22D4E5F1DBD805400AF0297 /* RemindinatorUITests */,
@@ -165,20 +190,16 @@
 		B22D4E3C1DBD805300AF0297 /* Remindinator */ = {
 			isa = PBXGroup;
 			children = (
+				72C0AFB21DC178FB0097D469 /* Models */,
+				72C0AFB11DC178C50097D469 /* ViewControllers */,
 				B22D4E3D1DBD805300AF0297 /* AppDelegate.swift */,
-				B22D4E3F1DBD805300AF0297 /* LoginViewController.swift */,
 				5EC9EB4F1DBFFE7A004BDD6F /* Main.storyboard */,
-				5EC9EB4D1DBFEE12004BDD6F /* RegistrationViewController.swift */,
 				5EA30B891DBDAE9500FCEC4E /* myEventsTableTableViewController.swift */,
-				5EA30B8B1DBDAEB600FCEC4E /* DashBooardTableViewController.swift */,
-				5EA30B831DBD8B7900FCEC4E /* User.swift */,
-				5EA30B851DBD8C2000FCEC4E /* Event.swift */,
-				5EA30B871DBD8CC900FCEC4E /* Task.swift */,
+				72F8678A1DBD95C800AEB80A /* UserViewController.swift */,
 				B22D4E471DBD805400AF0297 /* Assets.xcassets */,
 				B22D4E4C1DBD805400AF0297 /* Info.plist */,
 				B22D4E441DBD805300AF0297 /* Remindinator.xcdatamodeld */,
 				B22D4E6E1DBD888F00AF0297 /* Launch Screen.storyboard */,
-				72F8678A1DBD95C800AEB80A /* UserViewController.swift */,
 			);
 			path = Remindinator;
 			sourceTree = "<group>";
@@ -333,15 +354,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				72F8678B1DBD95C800AEB80A /* UserViewController.swift in Sources */,
-				5EA30B841DBD8B7900FCEC4E /* User.swift in Sources */,
+				72C0AFB01DC173550097D469 /* DashboardViewController.swift in Sources */,
 				B22D4E401DBD805300AF0297 /* LoginViewController.swift in Sources */,
 				5EA30B8A1DBDAE9500FCEC4E /* myEventsTableTableViewController.swift in Sources */,
+				72C0AFAC1DC162150097D469 /* AddNewEventViewController.swift in Sources */,
 				5EC9EB4E1DBFEE12004BDD6F /* RegistrationViewController.swift in Sources */,
 				B22D4E3E1DBD805300AF0297 /* AppDelegate.swift in Sources */,
+				72C0AFAE1DC16CC20097D469 /* DashboardEvent.swift in Sources */,
 				B22D4E461DBD805300AF0297 /* Remindinator.xcdatamodeld in Sources */,
-				5EA30B881DBD8CC900FCEC4E /* Task.swift in Sources */,
-				5EA30B8C1DBDAEB600FCEC4E /* DashBooardTableViewController.swift in Sources */,
-				5EA30B861DBD8C2000FCEC4E /* Event.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +486,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -474,6 +495,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Telepathic-Space-Ninjas-Inc..Remindinator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Remindinator/Remindinator-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -481,6 +504,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -489,6 +513,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Telepathic-Space-Ninjas-Inc..Remindinator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Remindinator/Remindinator-Bridging-Header.h";
 			};
 			name = Release;
 		};

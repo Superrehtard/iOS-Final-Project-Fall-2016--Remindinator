@@ -10,54 +10,51 @@ import UIKit
 import Parse
 
 class RegistrationViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.title = "Sign Up"
     }
-
- 
-    @IBOutlet weak var firstNameTF: UITextField!
-    @IBOutlet weak var lastNameTF: UITextField!
+    
+    
+    @IBOutlet weak var userNameTF: UITextField!
+    
     @IBOutlet weak var emailOrUserNameTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
     @IBOutlet weak var confirmPasswordTF: UITextField!
-    @IBOutlet weak var mobileNumberTF: UITextField!
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     @IBAction func signUpBTN(sender: AnyObject) {
-        let userDetails = PFObject(className: "userDetails")
-        userDetails["firstName"] = firstNameTF.text!
-        userDetails["lastName"] = lastNameTF.text!
-        userDetails["emailID"] = emailOrUserNameTF.text!
-        userDetails["password"] = passwordTF.text!
-        userDetails["mobileNumber"] = mobileNumberTF.text!
-        userDetails.saveInBackgroundWithBlock {(succeeded, error) -> Void in
-            
-            if let error = error as NSError? {
-                let errorString = error.userInfo["error"] as? NSString
-                // In case something went wrong, use errorString to get the error
-                self.displayAlertWithTitle("Something has gone wrong", message:"\(errorString)")
+        let user = PFUser()
+        // TO DO:
+        // Implement validations (password matching etc..,)
+        
+        user.username = userNameTF.text!
+        user.password = passwordTF.text!
+        user.email = emailOrUserNameTF.text!
+        
+        user.signUpInBackgroundWithBlock {
+            succeded, error in
+            if succeded {
+                self.performSegueWithIdentifier("SignUpSuccessful", sender: self)
             } else {
-                // Everything went okay
-                self.displayAlertWithTitle("Success!", message:"Registration was successful")
+                self.displayAlertWithTitle("Something gone awfully wrong!", message: "\(error!.localizedDescription)")
                 
-                
-                let emailVerified = userDetails["emailVerified"]
+                let emailVerified = user["emailVerified"]
                 if emailVerified != nil && (emailVerified as! Bool) == true {
                     // Everything is fine
-                }
-                else {
+                } else {
                     // The email has not been verified, so logout the user
                     PFUser.logOut()
                 }
             }
         }
-
     }
     
     func displayAlertWithTitle(title:String, message:String){
@@ -65,8 +62,5 @@ class RegistrationViewController: UIViewController {
         let defaultAction:UIAlertAction =  UIAlertAction(title: "OK", style: .Default, handler: nil)
         alert.addAction(defaultAction)
         self.presentViewController(alert, animated: true, completion: nil)
-        
-
-
-}
+    }
 }
