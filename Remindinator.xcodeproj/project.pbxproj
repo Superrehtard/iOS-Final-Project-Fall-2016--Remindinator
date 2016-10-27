@@ -26,6 +26,7 @@
 		72C0AFAC1DC162150097D469 /* AddNewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C0AFAB1DC162150097D469 /* AddNewEventViewController.swift */; };
 		72C0AFAE1DC16CC20097D469 /* DashboardEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C0AFAD1DC16CC20097D469 /* DashboardEvent.swift */; };
 		72C0AFB01DC173550097D469 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C0AFAF1DC173550097D469 /* DashboardViewController.swift */; };
+		72C0AFB51DC180520097D469 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C0AFB41DC180520097D469 /* ParseUI.framework */; };
 		72F8678B1DBD95C800AEB80A /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F8678A1DBD95C800AEB80A /* UserViewController.swift */; };
 		B22D4E3E1DBD805300AF0297 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D4E3D1DBD805300AF0297 /* AppDelegate.swift */; };
 		B22D4E401DBD805300AF0297 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D4E3F1DBD805300AF0297 /* LoginViewController.swift */; };
@@ -70,10 +71,11 @@
 		5EC9EB4A1DBFEA53004BDD6F /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		5EC9EB4D1DBFEE12004BDD6F /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		5EC9EB4F1DBFFE7A004BDD6F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		72824E6D1DC1812000E2B626 /* Remindinator-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Remindinator-Bridging-Header.h"; sourceTree = "<group>"; };
 		72C0AFAB1DC162150097D469 /* AddNewEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewEventViewController.swift; sourceTree = "<group>"; };
 		72C0AFAD1DC16CC20097D469 /* DashboardEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardEvent.swift; sourceTree = "<group>"; };
 		72C0AFAF1DC173550097D469 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
-		72C0AFB31DC17E100097D469 /* Remindinator-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Remindinator-Bridging-Header.h"; sourceTree = "<group>"; };
+		72C0AFB41DC180520097D469 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		72F8678A1DBD95C800AEB80A /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		B22D4E3A1DBD805300AF0297 /* Remindinator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Remindinator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B22D4E3D1DBD805300AF0297 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			files = (
 				5EC9EB441DBFE93C004BDD6F /* libz.tbd in Frameworks */,
 				5EC9EB421DBFE933004BDD6F /* libsqlite3.tbd in Frameworks */,
+				72C0AFB51DC180520097D469 /* ParseUI.framework in Frameworks */,
 				5EC9EB381DBFE923004BDD6F /* AudioToolbox.framework in Frameworks */,
 				5EC9EB4B1DBFEA53004BDD6F /* Bolts.framework in Frameworks */,
 				5EC9EB391DBFE923004BDD6F /* CFNetwork.framework in Frameworks */,
@@ -131,6 +134,7 @@
 		72B4F1E31DC09B5700654505 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				72C0AFB41DC180520097D469 /* ParseUI.framework */,
 				5EC9EB411DBFE933004BDD6F /* libsqlite3.tbd */,
 				5EC9EB491DBFEA53004BDD6F /* Bolts.framework */,
 				5EC9EB4A1DBFEA53004BDD6F /* Parse.framework */,
@@ -191,7 +195,6 @@
 		B22D4E3C1DBD805300AF0297 /* Remindinator */ = {
 			isa = PBXGroup;
 			children = (
-				72C0AFB31DC17E100097D469 /* Remindinator-Bridging-Header.h */,
 				72C0AFB21DC178FB0097D469 /* Models */,
 				72C0AFB11DC178C50097D469 /* ViewControllers */,
 				B22D4E3D1DBD805300AF0297 /* AppDelegate.swift */,
@@ -202,6 +205,7 @@
 				B22D4E4C1DBD805400AF0297 /* Info.plist */,
 				B22D4E441DBD805300AF0297 /* Remindinator.xcdatamodeld */,
 				B22D4E6E1DBD888F00AF0297 /* Launch Screen.storyboard */,
+				72824E6D1DC1812000E2B626 /* Remindinator-Bridging-Header.h */,
 			);
 			path = Remindinator;
 			sourceTree = "<group>";
