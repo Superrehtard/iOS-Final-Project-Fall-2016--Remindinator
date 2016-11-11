@@ -19,6 +19,26 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.viewDidLoad()
         
         userProfileIV.userInteractionEnabled = true
+        let user = PFUser.currentUser()!
+        if let userImageFile = user["image"] as? PFFile {
+            userImageFile.getDataInBackgroundWithBlock {
+                (imageData: NSData?, error: NSError?) -> Void in
+                if error == nil {
+                    if let imageData = imageData {
+                        self.userProfileIV.image = UIImage(data:imageData)
+                    }
+                }
+            }
+        } else {
+            let image = UIImage(named: "Gender Neutral User Filled-100")
+            let imageData = UIImagePNGRepresentation(image!)
+            let imageFile = PFFile(name: user.username, data: imageData!)
+            
+            user["image"] = imageFile
+            
+            user.saveInBackground()
+        }
+        
 
         userFullNameLBL.text = PFUser.currentUser()?.username
         // Do any additional setup after loading the view.
@@ -39,6 +59,13 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        let imageData = UIImagePNGRepresentation(image!)
+        let imageFile = PFFile(name: PFUser.currentUser()?.username!, data: imageData!)
+        
+        PFUser.currentUser()?["image"] = imageFile
+        PFUser.currentUser()?.saveInBackground()
+        
         userProfileIV.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.dismissViewControllerAnimated(true, completion: nil)
     }

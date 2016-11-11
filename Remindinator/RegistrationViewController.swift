@@ -39,6 +39,12 @@ class RegistrationViewController: UIViewController {
         user.password = passwordTF.text!
         user.email = emailOrUserNameTF.text!
         
+        let image = UIImage(named: "Gender Neutral User Filled-100")
+        let imageData = UIImagePNGRepresentation(image!)
+        let imageFile = PFFile(name: userNameTF.text!, data: imageData!)
+        
+        user["image"] = imageFile
+        
         user.signUpInBackgroundWithBlock {
             succeded, error in
             if succeded {
