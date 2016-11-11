@@ -7,15 +7,20 @@
 //
 
 import UIKit
+import Parse
 
-class UserViewController: UIViewController {
+class UserViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var userFullName:String!
+    @IBOutlet weak var userProfileIV: UIImageView!
 
     @IBOutlet weak var userFullNameLBL: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        userProfileIV.userInteractionEnabled = true
 
+        userFullNameLBL.text = PFUser.currentUser()?.username
         // Do any additional setup after loading the view.
     }
 
@@ -24,11 +29,18 @@ class UserViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func editAvatar(sender: AnyObject) {
-//        let image = UIImage()
-        let controller = UIImagePickerController()
+    @IBAction func userImageTapped(gestureRecognizer: UIGestureRecognizer) {
+        let imagePicker = UIImagePickerController()
         
-        self.presentViewController(controller, animated: true, completion: nil)
+        imagePicker.delegate = self
+        imagePicker.sourceType = .PhotoLibrary
+        
+        self.presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        userProfileIV.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

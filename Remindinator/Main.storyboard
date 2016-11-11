@@ -175,11 +175,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F1H-Mb-VJH">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Gender Neutral User Filled-100" translatesAutoresizingMaskIntoConstraints="NO" id="F1H-Mb-VJH">
                                 <rect key="frame" x="200" y="89" width="200" height="200"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" button="YES" image="YES"/>
                                 </accessibility>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="5Kd-8E-4jw" appends="YES" id="e16-nB-GBw"/>
+                                </connections>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KOh-9R-GN8">
                                 <rect key="frame" x="257" y="404" width="75" height="30"/>
@@ -200,13 +204,9 @@
                                     <segue destination="oyl-iB-zY9" kind="show" identifier="myEvents" id="0UK-Ka-Ceu"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONU-GZ-P9W">
-                                <rect key="frame" x="321" y="259" width="79" height="30"/>
-                                <state key="normal" title="Change 👤"/>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tUS-2h-rCE">
-                                <rect key="frame" x="273" y="297" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tUS-2h-rCE">
+                                <rect key="frame" x="200" y="297" width="200" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -216,11 +216,17 @@
                     <navigationItem key="navigationItem" id="A9n-4g-jmE"/>
                     <connections>
                         <outlet property="userFullNameLBL" destination="tUS-2h-rCE" id="4Am-AF-5fB"/>
+                        <outlet property="userProfileIV" destination="F1H-Mb-VJH" id="OVK-Ot-4d0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p4g-ee-NTW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="5Kd-8E-4jw">
+                    <connections>
+                        <action selector="userImageTapped:" destination="3oy-bZ-wLr" id="Yym-aK-GY7"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-223" y="-485"/>
+            <point key="canvasLocation" x="-69" y="-485"/>
         </scene>
         <!--My Events Table Table View Controller-->
         <scene sceneID="Jps-tY-rrK">
@@ -232,7 +238,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="event_cell" rowHeight="113" id="0gX-gd-hDm">
-                                <rect key="frame" x="0.0" y="28" width="600" height="113"/>
+                                <rect key="frame" x="0.0" y="92" width="600" height="113"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0gX-gd-hDm" id="bRa-Bv-7QJ">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="112.5"/>
@@ -338,8 +344,11 @@
                                     <segue destination="sra-7n-P9O" kind="show" id="bAw-CZ-Oap"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Item" id="Y5Y-3L-G8g"/>
-                            <barButtonItem title="Item" id="FGe-DJ-4Ls"/>
+                            <barButtonItem image="Gender Neutral User Filled-30" id="Y5Y-3L-G8g">
+                                <connections>
+                                    <segue destination="3oy-bZ-wLr" kind="show" id="VKz-va-j11"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <userDefinedRuntimeAttributes>
@@ -609,6 +618,8 @@
     </scenes>
     <resources>
         <image name="Add User Group Man Man-30-2" width="30" height="30"/>
+        <image name="Gender Neutral User Filled-100" width="100" height="100"/>
+        <image name="Gender Neutral User Filled-30" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Krs-ed-bAL"/>
