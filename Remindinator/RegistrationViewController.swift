@@ -42,6 +42,7 @@ class RegistrationViewController: UIViewController {
         user.signUpInBackgroundWithBlock {
             succeded, error in
             if succeded {
+                
                 self.performSegueWithIdentifier("SignUpSuccessful", sender: self)
             } else {
                 self.displayAlertWithTitle("Something gone awfully wrong!", message: "\(error!.localizedDescription)")

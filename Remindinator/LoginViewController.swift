@@ -18,6 +18,10 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if PFUser.currentUser() != nil {
+                self.performSegueWithIdentifier("LoginSuccessful", sender: self)
+        }
+        
     }
     
     @IBAction func signInBTN(sender: AnyObject) {
@@ -31,11 +35,23 @@ class LoginViewController: UIViewController {
         }
     }
     
+    @IBAction func logUserOut(segue: UIStoryboardSegue) {
+        if PFUser.currentUser() != nil {
+            PFUser.logOut()
+        }
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        userNameTF.text = "iamparne"
+        passwordTF.text = "parne007"
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     func displayAlertWithTitle(title:String, message:String){
         let alert:UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         let defaultAction:UIAlertAction =  UIAlertAction(title: "OK", style: .Default, handler: nil)

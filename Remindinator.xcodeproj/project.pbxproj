@@ -23,10 +23,14 @@
 		5EC9EB4C1DBFEA53004BDD6F /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EC9EB4A1DBFEA53004BDD6F /* Parse.framework */; };
 		5EC9EB4E1DBFEE12004BDD6F /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC9EB4D1DBFEE12004BDD6F /* RegistrationViewController.swift */; };
 		5EC9EB501DBFFE7A004BDD6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5EC9EB4F1DBFFE7A004BDD6F /* Main.storyboard */; };
-		72C0AFAC1DC162150097D469 /* AddNewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C0AFAB1DC162150097D469 /* AddNewEventViewController.swift */; };
+		726542F31DCFF2DE001680D9 /* EventNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726542F21DCFF2DE001680D9 /* EventNameTableViewCell.swift */; };
+		726543151DD00699001680D9 /* AddEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726543141DD00699001680D9 /* AddEventTableViewController.swift */; };
+		726543171DD03786001680D9 /* DashboardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726543161DD03786001680D9 /* DashboardTableViewController.swift */; };
+		7265431A1DD03B33001680D9 /* DashboardEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726543191DD03B33001680D9 /* DashboardEventTableViewCell.swift */; };
+		7274ED7E1DCE8835005B2560 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7274ED7D1DCE8834005B2560 /* ParseUI.framework */; };
 		72C0AFAE1DC16CC20097D469 /* DashboardEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C0AFAD1DC16CC20097D469 /* DashboardEvent.swift */; };
-		72C0AFB01DC173550097D469 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C0AFAF1DC173550097D469 /* DashboardViewController.swift */; };
-		72C0AFB51DC180520097D469 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C0AFB41DC180520097D469 /* ParseUI.framework */; };
+		72DBA8EE1DD1C27D00CB2642 /* UserEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DBA8ED1DD1C27D00CB2642 /* UserEvent.swift */; };
+		72DBA8F01DD1C5F200CB2642 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72DBA8EF1DD1C5F200CB2642 /* Images.xcassets */; };
 		72F8678B1DBD95C800AEB80A /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F8678A1DBD95C800AEB80A /* UserViewController.swift */; };
 		B22D4E3E1DBD805300AF0297 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D4E3D1DBD805300AF0297 /* AppDelegate.swift */; };
 		B22D4E401DBD805300AF0297 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D4E3F1DBD805300AF0297 /* LoginViewController.swift */; };
@@ -71,11 +75,15 @@
 		5EC9EB4A1DBFEA53004BDD6F /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		5EC9EB4D1DBFEE12004BDD6F /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		5EC9EB4F1DBFFE7A004BDD6F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		726542F21DCFF2DE001680D9 /* EventNameTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventNameTableViewCell.swift; sourceTree = "<group>"; };
+		726543141DD00699001680D9 /* AddEventTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEventTableViewController.swift; sourceTree = "<group>"; };
+		726543161DD03786001680D9 /* DashboardTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardTableViewController.swift; sourceTree = "<group>"; };
+		726543191DD03B33001680D9 /* DashboardEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardEventTableViewCell.swift; sourceTree = "<group>"; };
+		7274ED7D1DCE8834005B2560 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		72824E6D1DC1812000E2B626 /* Remindinator-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Remindinator-Bridging-Header.h"; sourceTree = "<group>"; };
-		72C0AFAB1DC162150097D469 /* AddNewEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewEventViewController.swift; sourceTree = "<group>"; };
 		72C0AFAD1DC16CC20097D469 /* DashboardEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardEvent.swift; sourceTree = "<group>"; };
-		72C0AFAF1DC173550097D469 /* DashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
-		72C0AFB41DC180520097D469 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
+		72DBA8ED1DD1C27D00CB2642 /* UserEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserEvent.swift; sourceTree = "<group>"; };
+		72DBA8EF1DD1C5F200CB2642 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		72F8678A1DBD95C800AEB80A /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		B22D4E3A1DBD805300AF0297 /* Remindinator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Remindinator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B22D4E3D1DBD805300AF0297 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -99,7 +107,7 @@
 			files = (
 				5EC9EB441DBFE93C004BDD6F /* libz.tbd in Frameworks */,
 				5EC9EB421DBFE933004BDD6F /* libsqlite3.tbd in Frameworks */,
-				72C0AFB51DC180520097D469 /* ParseUI.framework in Frameworks */,
+				7274ED7E1DCE8835005B2560 /* ParseUI.framework in Frameworks */,
 				5EC9EB381DBFE923004BDD6F /* AudioToolbox.framework in Frameworks */,
 				5EC9EB4B1DBFEA53004BDD6F /* Bolts.framework in Frameworks */,
 				5EC9EB391DBFE923004BDD6F /* CFNetwork.framework in Frameworks */,
@@ -131,10 +139,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		726543181DD03AD7001680D9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				726543191DD03B33001680D9 /* DashboardEventTableViewCell.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		72B4F1E31DC09B5700654505 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				72C0AFB41DC180520097D469 /* ParseUI.framework */,
+				7274ED7D1DCE8834005B2560 /* ParseUI.framework */,
 				5EC9EB411DBFE933004BDD6F /* libsqlite3.tbd */,
 				5EC9EB491DBFEA53004BDD6F /* Bolts.framework */,
 				5EC9EB4A1DBFEA53004BDD6F /* Parse.framework */,
@@ -155,10 +171,10 @@
 		72C0AFB11DC178C50097D469 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				72C0AFAF1DC173550097D469 /* DashboardViewController.swift */,
 				5EC9EB4D1DBFEE12004BDD6F /* RegistrationViewController.swift */,
-				72C0AFAB1DC162150097D469 /* AddNewEventViewController.swift */,
 				B22D4E3F1DBD805300AF0297 /* LoginViewController.swift */,
+				726543141DD00699001680D9 /* AddEventTableViewController.swift */,
+				726543161DD03786001680D9 /* DashboardTableViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -167,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				72C0AFAD1DC16CC20097D469 /* DashboardEvent.swift */,
+				72DBA8ED1DD1C27D00CB2642 /* UserEvent.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -195,6 +212,7 @@
 		B22D4E3C1DBD805300AF0297 /* Remindinator */ = {
 			isa = PBXGroup;
 			children = (
+				726543181DD03AD7001680D9 /* Views */,
 				72C0AFB21DC178FB0097D469 /* Models */,
 				72C0AFB11DC178C50097D469 /* ViewControllers */,
 				B22D4E3D1DBD805300AF0297 /* AppDelegate.swift */,
@@ -206,6 +224,8 @@
 				B22D4E441DBD805300AF0297 /* Remindinator.xcdatamodeld */,
 				B22D4E6E1DBD888F00AF0297 /* Launch Screen.storyboard */,
 				72824E6D1DC1812000E2B626 /* Remindinator-Bridging-Header.h */,
+				726542F21DCFF2DE001680D9 /* EventNameTableViewCell.swift */,
+				72DBA8EF1DD1C5F200CB2642 /* Images.xcassets */,
 			);
 			path = Remindinator;
 			sourceTree = "<group>";
@@ -333,6 +353,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5EC9EB501DBFFE7A004BDD6F /* Main.storyboard in Resources */,
+				72DBA8F01DD1C5F200CB2642 /* Images.xcassets in Resources */,
 				B22D4E6F1DBD888F00AF0297 /* Launch Screen.storyboard in Resources */,
 				B22D4E481DBD805400AF0297 /* Assets.xcassets in Resources */,
 			);
@@ -360,10 +381,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				72F8678B1DBD95C800AEB80A /* UserViewController.swift in Sources */,
-				72C0AFB01DC173550097D469 /* DashboardViewController.swift in Sources */,
+				726542F31DCFF2DE001680D9 /* EventNameTableViewCell.swift in Sources */,
 				B22D4E401DBD805300AF0297 /* LoginViewController.swift in Sources */,
+				726543171DD03786001680D9 /* DashboardTableViewController.swift in Sources */,
+				72DBA8EE1DD1C27D00CB2642 /* UserEvent.swift in Sources */,
 				5EA30B8A1DBDAE9500FCEC4E /* myEventsTableTableViewController.swift in Sources */,
-				72C0AFAC1DC162150097D469 /* AddNewEventViewController.swift in Sources */,
+				7265431A1DD03B33001680D9 /* DashboardEventTableViewCell.swift in Sources */,
+				726543151DD00699001680D9 /* AddEventTableViewController.swift in Sources */,
 				5EC9EB4E1DBFEE12004BDD6F /* RegistrationViewController.swift in Sources */,
 				B22D4E3E1DBD805300AF0297 /* AppDelegate.swift in Sources */,
 				72C0AFAE1DC16CC20097D469 /* DashboardEvent.swift in Sources */,
