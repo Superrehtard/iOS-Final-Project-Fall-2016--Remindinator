@@ -8,6 +8,8 @@
 
 import UIKit
 
+//Not needed for now, remove it before submitting
+
 class EventNameTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     let eventNameTF:UITextField

@@ -42,6 +42,27 @@ class DashboardTableViewController: PFQueryTableViewController {
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
         
+//        let user = PFUser.currentUser()!
+        if let userImageFile = event.user["image"] as? PFFile {
+            userImageFile.getDataInBackgroundWithBlock {
+                (imageData: NSData?, error: NSError?) -> Void in
+                if error == nil {
+                    if let imageData = imageData {
+                        cell.userImage.image = UIImage(data:imageData)
+                    }
+                }
+            }
+        } else {
+            let image = UIImage(named: "Gender Neutral User Filled-100")
+            let imageData = UIImagePNGRepresentation(image!)
+            let imageFile = PFFile(name: event.user.username, data: imageData!)
+            
+            event.user["image"] = imageFile
+            
+            event.user.saveInBackground()
+            cell.userImage.image = image
+        }
+        
         cell.eventName.text = event.name
         cell.eventReminderTime.text = dateFormatter.stringFromDate(event.time)
         

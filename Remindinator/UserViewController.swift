@@ -27,6 +27,8 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                     if let imageData = imageData {
                         self.userProfileIV.image = UIImage(data:imageData)
                     }
+                } else {
+                    print("Something has happened: \(error)")
                 }
             }
         } else {
@@ -36,7 +38,15 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             
             user["image"] = imageFile
             
-            user.saveInBackground()
+            user.saveInBackgroundWithBlock({(success,error)->Void in
+                
+                if error != nil {
+                    print("Something has gone wrong saving in background: \(error)")
+                } else {
+                    print("Success while saving")
+                }
+                
+                })
         }
         
 
@@ -64,7 +74,15 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let imageFile = PFFile(name: PFUser.currentUser()?.username!, data: imageData!)
         
         PFUser.currentUser()?["image"] = imageFile
-        PFUser.currentUser()?.saveInBackground()
+        PFUser.currentUser()?.saveInBackgroundWithBlock({(success,error) in
+            if error != nil {
+                print("Something has gone wrong saving in background in imagePickerController(): \(error)")
+            } else {
+                print("Success while saving")
+            }
+            
+        })
+
         
         userProfileIV.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.dismissViewControllerAnimated(true, completion: nil)

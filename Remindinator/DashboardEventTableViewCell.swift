@@ -11,6 +11,5 @@ import UIKit
 class DashboardEventTableViewCell : PFTableViewCell {
     @IBOutlet weak var eventName: UILabel!
     @IBOutlet weak var eventReminderTime : UILabel!
-//    @IBOutlet weak var commentLabel: UILabel!
-//    @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var userImage: UIImageView!
 }
