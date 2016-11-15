@@ -7,9 +7,15 @@
 //
 
 import UIKit
+import Parse
+
+// A custom Parse TableViewCell that has its own labels and image views.
 
 class DashboardEventTableViewCell : PFTableViewCell {
     @IBOutlet weak var eventName: UILabel!
     @IBOutlet weak var eventReminderTime : UILabel!
     @IBOutlet weak var userImage: UIImageView!
+    
+    var user:PFUser!
+    var objectId:String!
 }

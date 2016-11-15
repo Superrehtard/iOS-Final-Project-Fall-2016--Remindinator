@@ -11,16 +11,31 @@ import Parse
 
 class UserEvent : PFObject {
     
-    // As of now we are taking some dummy event attributes, later we will be polishing all the attributes and relations.
+    // Some of the essential user event attributes. We will be adding some extra properties in the future.
     @NSManaged var name:String?
     @NSManaged var time:NSDate!
     @NSManaged var isPublic:Bool
     @NSManaged var isShared:Bool
     @NSManaged var location:String?
     @NSManaged var user:PFUser
+    @NSManaged var sharedToUsers:[PFUser]
     
+    // Funciton that returns a query on the PFObject(in this particular case the PFObject is UserEvent)
     override class func query() -> PFQuery? {
         let query = PFQuery(className: UserEvent.parseClassName())
+        
+        query.includeKey("user")
+        
+        query.orderByDescending("createdAt")
+        
+        return query
+    }
+    
+    // A static/class funciton to get the query that returns all the public events.
+    class func queryForPublicEvents() -> PFQuery? {
+        
+        let query = PFQuery(className: UserEvent.parseClassName())
+        query.whereKey("isPublic", equalTo: true)
         
         query.includeKey("user")
         
@@ -29,12 +44,14 @@ class UserEvent : PFObject {
         return query
     }
     
+    // Initializer for UserEvent Class
     init(name:String?, time:NSDate, location:String?, user:PFUser) {
         super.init()
         self.name = name
         self.time = time
         self.location = location
         self.user = user
+        self.sharedToUsers = []
         self.isPublic = false
         self.isShared = false
     }
@@ -44,6 +61,7 @@ class UserEvent : PFObject {
     }
 }
 
+// Parse subclassing so that we can fetch data from backend.
 extension UserEvent : PFSubclassing {
     
     class func parseClassName() -> String {

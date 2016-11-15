@@ -17,9 +17,8 @@ class RegistrationViewController: UIViewController {
         self.navigationItem.title = "Sign Up"
     }
     
-    
+    // Outlets for the Registration View Controller.
     @IBOutlet weak var userNameTF: UITextField!
-    
     @IBOutlet weak var emailOrUserNameTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
     @IBOutlet weak var confirmPasswordTF: UITextField!
@@ -29,7 +28,7 @@ class RegistrationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
+    // This function is called once the user taps on the signUp button. This function registers a user.
     @IBAction func signUpBTN(sender: AnyObject) {
         let user = PFUser()
         // TO DO:

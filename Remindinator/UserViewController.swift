@@ -11,10 +11,17 @@ import Parse
 
 class UserViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    // Outlets and stored properties.
     var userFullName:String!
     @IBOutlet weak var userProfileIV: UIImageView!
-
     @IBOutlet weak var userFullNameLBL: UILabel!
+    
+    // Function that pops this current viewcontroller taking back to Dashboard.
+    @IBAction func backToDashboard(sender: AnyObject) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    // In this method we are making the user image interactive and setting default image for our user.
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,9 +56,8 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 })
         }
         
-
+        // Here we are setting the user full name to the current user's username.
         userFullNameLBL.text = PFUser.currentUser()?.username
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,6 +65,7 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         // Dispose of any resources that can be recreated.
     }
     
+    // This function is called whenever a user taps on the profile image.
     @IBAction func userImageTapped(gestureRecognizer: UIGestureRecognizer) {
         let imagePicker = UIImagePickerController()
         
@@ -68,6 +75,7 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         self.presentViewController(imagePicker, animated: true, completion: nil)
     }
     
+    // This function tell what should be done once the user is done picking an image. This basically get the image and saves it in the backend to be retrieved later.
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         let image = info[UIImagePickerControllerOriginalImage] as? UIImage
         let imageData = UIImagePNGRepresentation(image!)
@@ -88,6 +96,7 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    // Function to handle all the segues from the userViewController.
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "myEvents"{
             
@@ -97,15 +106,5 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 //        let myEventsTVC = segue.destinationViewController as! DashBooardTableViewController
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

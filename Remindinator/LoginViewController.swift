@@ -12,18 +12,21 @@ import Parse
 
 class LoginViewController: UIViewController {
     
+    // Outlets for userName and password fields.
     @IBOutlet weak var userNameTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // if there is user logged in already navigate to the dashboard.
         if PFUser.currentUser() != nil {
                 self.performSegueWithIdentifier("LoginSuccessful", sender: self)
         }
         
     }
     
+    // Function is called when the user clicks on the sign In button. If the login is successful the user is navigated to the dashboard else an error message is displayed.
     @IBAction func signInBTN(sender: AnyObject) {
         PFUser.logInWithUsernameInBackground(userNameTF.text!, password: passwordTF.text!) {
             user, error in
@@ -35,6 +38,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // Unwind segue to log user out from the dashboard and user profile page.
     @IBAction func logUserOut(segue: UIStoryboardSegue) {
         if PFUser.currentUser() != nil {
             PFUser.logOut()
@@ -42,6 +46,7 @@ class LoginViewController: UIViewController {
         
     }
     
+    // Setting the username and password field by default here to make it easy while developing.
     override func viewWillAppear(animated: Bool) {
         userNameTF.text = "iamparne"
         passwordTF.text = "parne007"

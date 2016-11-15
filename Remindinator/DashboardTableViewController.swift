@@ -25,7 +25,7 @@ class DashboardTableViewController: PFQueryTableViewController {
     }
     
     override func queryForTable() -> PFQuery {
-        let query = UserEvent.query()
+        let query = UserEvent.queryForPublicEvents()
         return query!
     }
     
@@ -42,13 +42,17 @@ class DashboardTableViewController: PFQueryTableViewController {
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
         
-//        let user = PFUser.currentUser()!
         if let userImageFile = event.user["image"] as? PFFile {
             userImageFile.getDataInBackgroundWithBlock {
                 (imageData: NSData?, error: NSError?) -> Void in
                 if error == nil {
                     if let imageData = imageData {
                         cell.userImage.image = UIImage(data:imageData)
+                    }
+                    print("Successfully fetched image from the Backend.")
+                } else {
+                    if let error = error {
+                        print("Something has gone wrong when getting the userImage from the background: \(error.localizedDescription)")
                     }
                 }
             }
@@ -64,78 +68,52 @@ class DashboardTableViewController: PFQueryTableViewController {
         }
         
         cell.eventName.text = event.name
+        cell.objectId = event.objectId
         cell.eventReminderTime.text = dateFormatter.stringFromDate(event.time)
+        cell.user = event.user
         
         return cell
     }
     
-    /*
-     // MARK: - Table view data source
-     
-     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-     // #warning Incomplete implementation, return the number of sections
-     return 0
-     }
-     
-     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-     // #warning Incomplete implementation, return the number of rows
-     return 0
-     }
-     */
+    // This functions tells which all table view cells can be deleted. Only event that are his own can be edited by the user.
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? DashboardEventTableViewCell {
+            if cell.user.objectId?.compare((PFUser.currentUser()?.objectId)!) == .OrderedSame {
+                return true
+            }
+        }
+        
+        return false
+    }
     
-    /*
-     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-     
-     // Configure the cell...
-     
-     return cell
-     }
-     */
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-     if editingStyle == .Delete {
-     // Delete the row from the data source
-     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-     } else if editingStyle == .Insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    //Function that implements the deleting functionality to the tableviewcells.
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! DashboardEventTableViewCell
+        
+        let query = PFQuery(className: UserEvent.parseClassName())
+        
+        query.findObjectsInBackgroundWithBlock {
+            (objects: [PFObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                dispatch_async(dispatch_get_main_queue()) {
+                    if objects?.count > 0 {
+                        for object in objects! {
+                            if (((object as! UserEvent).objectId?.compare(cell.objectId!)) == .OrderedSame) {
+                                object.deleteInBackground()
+                            }
+                        }
+                    }
+                    self.loadObjects()
+                    tableView.reloadData()
+                    print("Successfully fetched Userevent and deleted the same.")
+                }
+            } else {
+                if let error = error {
+                    print("Something has gone terribly wrong! \(error.localizedDescription)")
+                }
+            }
+        }
+    }
     
 }
