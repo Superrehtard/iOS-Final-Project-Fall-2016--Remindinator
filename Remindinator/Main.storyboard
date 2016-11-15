@@ -283,53 +283,62 @@
         <scene sceneID="Jps-tY-rrK">
             <objects>
                 <tableViewController id="oyl-iB-zY9" customClass="myEventsTableTableViewController" customModule="Remindinator" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="113" sectionHeaderHeight="28" sectionFooterHeight="28" id="5fe-ku-3Bv">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="67" sectionHeaderHeight="28" sectionFooterHeight="28" id="5fe-ku-3Bv">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="event_cell" rowHeight="113" id="0gX-gd-hDm">
-                                <rect key="frame" x="0.0" y="92" width="600" height="113"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserEventCell" rowHeight="60" id="0gX-gd-hDm" customClass="DashboardEventTableViewCell" customModule="Remindinator" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0gX-gd-hDm" id="bRa-Bv-7QJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="112.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Event Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lU6-Di-7G5">
-                                            <rect key="frame" x="8" y="8" width="527" height="35"/>
-                                            <fontDescription key="fontDescription" name="DamascusLight" family="Damascus" pointSize="20"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uXs-em-o81">
-                                            <rect key="frame" x="26" y="62" width="87" height="25"/>
-                                            <fontDescription key="fontDescription" name="DamascusLight" family="Damascus" pointSize="15"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mP8-W1-rzW">
-                                            <rect key="frame" x="114" y="62" width="478" height="25"/>
-                                            <fontDescription key="fontDescription" name="DamascusLight" family="Damascus" pointSize="15"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UHz-uL-AKm">
-                                            <rect key="frame" x="26" y="86" width="87" height="25"/>
-                                            <fontDescription key="fontDescription" name="DamascusLight" family="Damascus" pointSize="15"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9id-lr-ZDB">
-                                            <rect key="frame" x="543" y="8" width="49" height="35"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Td7-9M-N9p">
+                                            <rect key="frame" x="18" y="0.0" width="65" height="51.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="65" id="1YL-yS-UXU"/>
+                                                <constraint firstAttribute="height" constant="51.5" id="32y-iC-CgD"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="51.5" id="hww-UY-wtG"/>
+                                            </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bc4-QP-uJi">
-                                            <rect key="frame" x="114" y="86" width="478" height="25"/>
-                                            <fontDescription key="fontDescription" name="DamascusLight" family="Damascus" pointSize="15"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iu9-k6-sJs">
+                                            <rect key="frame" x="93" y="0.0" width="239.5" height="51.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="51.5" id="yJl-7N-2v5"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c75-Qy-5vP">
+                                            <rect key="frame" x="342.5" y="0.0" width="239.5" height="51.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="51.5" id="bhH-hi-MFw"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Iu9-k6-sJs" firstAttribute="leading" secondItem="Td7-9M-N9p" secondAttribute="trailing" constant="10" id="0fM-af-nLF"/>
+                                        <constraint firstItem="Td7-9M-N9p" firstAttribute="bottom" secondItem="bRa-Bv-7QJ" secondAttribute="bottomMargin" id="I62-J6-Oa2"/>
+                                        <constraint firstItem="c75-Qy-5vP" firstAttribute="width" secondItem="Iu9-k6-sJs" secondAttribute="width" id="ZyU-Ss-r0C"/>
+                                        <constraint firstItem="c75-Qy-5vP" firstAttribute="leading" secondItem="Iu9-k6-sJs" secondAttribute="trailing" constant="10" id="hRp-1p-36W"/>
+                                        <constraint firstItem="Td7-9M-N9p" firstAttribute="leading" secondItem="bRa-Bv-7QJ" secondAttribute="leadingMargin" constant="10" id="iiQ-ws-eFI"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="c75-Qy-5vP" secondAttribute="trailing" constant="10" id="kw8-kg-sOU"/>
+                                        <constraint firstItem="c75-Qy-5vP" firstAttribute="top" secondItem="Td7-9M-N9p" secondAttribute="top" id="r29-7f-e8h"/>
+                                        <constraint firstItem="Td7-9M-N9p" firstAttribute="top" secondItem="bRa-Bv-7QJ" secondAttribute="topMargin" constant="-8" id="v1D-UA-Uga"/>
+                                        <constraint firstItem="Iu9-k6-sJs" firstAttribute="top" secondItem="Td7-9M-N9p" secondAttribute="top" id="vBf-xr-cCt"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="eventName" destination="Iu9-k6-sJs" id="6va-xe-6cm"/>
+                                    <outlet property="eventReminderTime" destination="c75-Qy-5vP" id="tlp-t6-CO6"/>
+                                    <outlet property="userImage" destination="Td7-9M-N9p" id="3hd-By-SxH"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -337,6 +346,9 @@
                             <outlet property="delegate" destination="oyl-iB-zY9" id="J7P-ko-1AP"/>
                         </connections>
                     </tableView>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="parseClassName" value="UserEvent"/>
+                    </userDefinedRuntimeAttributes>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hjY-4f-iQt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

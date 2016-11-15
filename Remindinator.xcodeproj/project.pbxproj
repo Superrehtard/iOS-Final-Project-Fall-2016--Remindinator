@@ -174,6 +174,7 @@
 		72C0AFB11DC178C50097D469 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				5EA30B891DBDAE9500FCEC4E /* myEventsTableTableViewController.swift */,
 				72F8678A1DBD95C800AEB80A /* UserViewController.swift */,
 				5EC9EB4D1DBFEE12004BDD6F /* RegistrationViewController.swift */,
 				B22D4E3F1DBD805300AF0297 /* LoginViewController.swift */,
@@ -221,7 +222,6 @@
 				72C0AFB11DC178C50097D469 /* ViewControllers */,
 				B22D4E3D1DBD805300AF0297 /* AppDelegate.swift */,
 				5EC9EB4F1DBFFE7A004BDD6F /* Main.storyboard */,
-				5EA30B891DBDAE9500FCEC4E /* myEventsTableTableViewController.swift */,
 				B22D4E471DBD805400AF0297 /* Assets.xcassets */,
 				B22D4E4C1DBD805400AF0297 /* Info.plist */,
 				B22D4E441DBD805300AF0297 /* Remindinator.xcdatamodeld */,
