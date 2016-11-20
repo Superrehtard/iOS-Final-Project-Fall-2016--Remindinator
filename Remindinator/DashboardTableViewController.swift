@@ -10,6 +10,8 @@ import UIKit
 
 class DashboardTableViewController: PFQueryTableViewController {
     
+    var eventsPopulated:[UserEvent] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,6 +24,7 @@ class DashboardTableViewController: PFQueryTableViewController {
     
     override func viewWillAppear(animated: Bool) {
         loadObjects()
+        self.loadEvents()
     }
     
     override func queryForTable() -> PFQuery {
@@ -113,6 +116,55 @@ class DashboardTableViewController: PFQueryTableViewController {
                     print("Something has gone terribly wrong! \(error.localizedDescription)")
                 }
             }
+        }
+    }
+    
+    //This function is called everytime the view appears and it loads all the userevents into the eventsPopulated array.
+    func loadEvents() {
+        self.eventsPopulated.removeAll()
+        
+        let query = PFQuery(className: UserEvent.parseClassName())
+        
+        query.findObjectsInBackgroundWithBlock {
+            (objects: [PFObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                dispatch_async(dispatch_get_main_queue()) {
+                    if objects?.count > 0 {
+                        for object in objects! {
+                            self.eventsPopulated.append(object as! UserEvent)
+                        }
+                    }
+                    print("Successfully fetched all userEvents")
+                }
+            } else {
+                if let error = error {
+                    print("Something has gone terribly wrong! \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    //Function that return the event for which the user has clicked on the edit button.
+    func eventSelectedToEdit(cell:UITableViewCell) -> UserEvent {
+        
+        var eventSelected:UserEvent!
+        
+        for event in self.eventsPopulated {
+            if ((event.objectId?.compare((cell as! DashboardEventTableViewCell).objectId)) == .OrderedSame) {
+                eventSelected = event
+            }
+        }
+        
+        return eventSelected
+    }
+    
+    //Here all the segues are handled based on their identifiers.
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "EditEvent" {
+            let editEventVC = segue.destinationViewController as! AddEventTableViewController
+            
+            editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(self.tableView.indexPathForCell(sender as! DashboardEventTableViewCell)!)!)
         }
     }
     

@@ -15,6 +15,9 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     var datePickerVisible = false
     var sharedContacts:[PFUser] = []
     
+    // UserEvent that is to be edited.
+    var eventToEdit:UserEvent!
+    
     // Outlets.
     @IBOutlet weak var eventNameTextField: UITextField!
     @IBOutlet weak var isPublicToggleSwitch: UISwitch!
@@ -24,6 +27,7 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var eventDateLabel: UILabel!
     @IBOutlet weak var userEventDP: UIDatePicker!
     @IBOutlet weak var doneBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var eventDatePicker: UIDatePicker!
     
     
     override func viewWillAppear(animated: Bool) {
@@ -138,6 +142,19 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
         self.userEventDP.minimumDate = NSDate()
         
         eventNameTextField.becomeFirstResponder()
+        
+        if let event = eventToEdit {
+            self.title = "Edit Event"
+            
+            self.eventNameTextField.text = event.name
+            self.isPublicToggleSwitch.on = event.isPublic
+            self.isSharedToggleSwitch.on = event.isShared
+            self.reminderToggleSwitch.on = event.time != nil ? true : false
+            if event.time != nil {
+                self.eventDateLabel.text = String(event.time)
+                self.eventDatePicker.date = event.time
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
