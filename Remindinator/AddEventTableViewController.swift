@@ -13,6 +13,7 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     
     // Stored properties.
     var datePickerVisible = false
+    var dueDate = NSDate()
     var sharedContacts:[PFUser] = []
     
     // UserEvent that is to be edited.
@@ -25,10 +26,9 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var contactsAddedLabel: UILabel!
     @IBOutlet weak var reminderToggleSwitch: UISwitch!
     @IBOutlet weak var eventDateLabel: UILabel!
-    @IBOutlet weak var userEventDP: UIDatePicker!
     @IBOutlet weak var doneBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var eventDatePicker: UIDatePicker!
-    
+    @IBOutlet weak var eventDatePickerCell: UITableViewCell!
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -38,13 +38,10 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     @IBAction func addEvent(sender: AnyObject) {
         
         // getting the date set fromt the date picker.
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-        let date = dateFormatter.dateFromString((self.eventDateLabel?.text!)!)
+        getEventDate()
         
         // creating the UserEvent based on the user input.
-        let dashboardEvent = UserEvent(name: eventNameTextField.text, time: date!, location: "Some Location", user: PFUser.currentUser()!)
+        let dashboardEvent = UserEvent(name: eventNameTextField.text!,reminderOn:self.reminderToggleSwitch.on, time: self.dueDate, location: "Some Location", user: PFUser.currentUser()!)
         dashboardEvent.isPublic = self.isPublicToggleSwitch.on
         dashboardEvent.isShared = self.isSharedToggleSwitch.on
         
@@ -71,10 +68,22 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     
     //Whenever the datepicker value is changed, this function is called.
     @IBAction func dateValueChanged(sender: UIDatePicker) {
+        self.dueDate = sender.date
+        self.updateEventDateLabel()
+    }
+    
+    func getEventDate() {
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-        eventDateLabel.text = dateFormatter.stringFromDate(sender.date)
+        dateFormatter.dateStyle = .MediumStyle
+        dateFormatter.timeStyle = .ShortStyle
+        self.dueDate = dateFormatter.dateFromString((self.eventDateLabel?.text!)!)!
+    }
+    
+    func updateEventDateLabel() {
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = .MediumStyle
+        formatter.timeStyle = .ShortStyle
+        eventDateLabel.text = formatter.stringFromDate(dueDate)
     }
     
     // Function called whenever the isShared switch is toggled.
@@ -87,20 +96,95 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
         tableView.reloadData()
     }
     
-    // To dynamically produce table cells based on UISwitch controls.
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 && indexPath.row == 0 {
-            eventNameTextField.becomeFirstResponder()
+    func showDatePicker() {
+        self.datePickerVisible = true
+        
+        let indexPathDateRow = NSIndexPath(forRow: 1, inSection: 2)
+        let indexPathForDatePicker = NSIndexPath(forRow: 2, inSection: 2)
+        
+        if let dateRow = tableView.cellForRowAtIndexPath(indexPathDateRow) {
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateStyle = .MediumStyle
+            dateFormatter.timeStyle = .ShortStyle
+            dateRow.detailTextLabel?.text = dateFormatter.stringFromDate(dueDate)
+            dateRow.detailTextLabel?.textColor = dateRow.detailTextLabel?.tintColor
         }
         
-        if indexPath.section == 2 {
-            if indexPath.row == 1 {
-                datePickerVisible = !datePickerVisible
-                tableView.reloadData()
+        tableView.beginUpdates()
+        self.tableView.insertRowsAtIndexPaths([indexPathForDatePicker], withRowAnimation: .Fade)
+        self.tableView.reloadRowsAtIndexPaths([indexPathDateRow], withRowAnimation: .None)
+        tableView.endUpdates()
+        
+        self.eventDatePicker.setDate(dueDate, animated: false)
+    }
+    
+    func hideDatePicker() {
+        if datePickerVisible {
+            self.datePickerVisible = false
+            
+            let indexPathDateRow = NSIndexPath(forRow: 1, inSection: 2)
+            let indexPathDatePicker = NSIndexPath(forRow: 2, inSection: 2)
+            
+            if let dateRow = tableView.cellForRowAtIndexPath(indexPathDateRow) {
+                dateRow.detailTextLabel?.textColor = UIColor(white: 0, alpha: 0.5)
+            }
+            
+            tableView.beginUpdates()
+            self.tableView.reloadRowsAtIndexPaths([indexPathDateRow], withRowAnimation: .None)
+            self.tableView.deleteRowsAtIndexPaths([indexPathDatePicker], withRowAnimation: .Fade)
+            tableView.endUpdates()
+        }
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        if indexPath.section == 2 && indexPath.row == 2 {
+            return self.eventDatePickerCell
+        } else {
+            return super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+        }
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if section == 2 && self.datePickerVisible {
+            return 3
+        } else {
+            return super.tableView(tableView, numberOfRowsInSection: section)
+        }
+    }
+    
+    // To dynamically produce table cells based on UISwitch controls.
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        eventNameTextField.resignFirstResponder()
+        
+        if indexPath.section == 2 && indexPath.row == 1 {
+            if self.datePickerVisible {
+                hideDatePicker()
+            } else {
+                showDatePicker()
             }
         }
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        if indexPath.section == 2 && indexPath.row == 1 {
+            return indexPath
+        } else {
+            return nil
+        }
+    }
+    
+    override func tableView(tableView: UITableView, indentationLevelForRowAtIndexPath indexPath: NSIndexPath) -> Int {
+        var index = indexPath
+        
+        if indexPath.section == 2 && indexPath.row == 2 {
+            index = NSIndexPath(forRow: 0, inSection: indexPath.section)
+        }
+        
+        return super.tableView(tableView, indentationLevelForRowAtIndexPath: index)
     }
     
     // The dynamic cell generation is done by manupulating the heights for the tableview based on the UI switch controls.
@@ -111,19 +195,11 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
             }
         }
         
-        if indexPath.section == 2 {
-            if indexPath.row == 1 && !reminderToggleSwitch.on {
-                return 0.0
-            }
-            if indexPath.row == 2 {
-                if !reminderToggleSwitch.on || !datePickerVisible {
-                    return 0.0
-                }
-                return 165.0
-            }
+        if indexPath.section == 2 && indexPath.row == 2 {
+            return 217
+        } else {
+            return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
         }
-        
-        return 44.0
     }
     
     // Default height for all the tableview cells.
@@ -139,7 +215,7 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
         tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
         tableView.tableFooterView = UIView(frame: CGRectZero)
         
-        self.userEventDP.minimumDate = NSDate()
+        self.eventDatePicker.minimumDate = NSDate()
         
         eventNameTextField.becomeFirstResponder()
         
@@ -149,11 +225,9 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
             self.eventNameTextField.text = event.name
             self.isPublicToggleSwitch.on = event.isPublic
             self.isSharedToggleSwitch.on = event.isShared
-            self.reminderToggleSwitch.on = event.time != nil ? true : false
-            if event.time != nil {
-                self.eventDateLabel.text = String(event.time)
-                self.eventDatePicker.date = event.time
-            }
+            self.reminderToggleSwitch.on = event.reminderOn
+            self.dueDate = event.time
+            self.updateEventDateLabel()
         }
     }
     
@@ -189,6 +263,7 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     
     //This function controls whether the 'Done' should be enabled or not.
     func textFieldDidBeginEditing(textField: UITextField) {
+        self.hideDatePicker()
         if textField.text?.characters.count > 0 {
             doneBarButtonItem.enabled = true
         } else {

@@ -12,8 +12,9 @@ import Parse
 class UserEvent : PFObject {
     
     // Some of the essential user event attributes. We will be adding some extra properties in the future.
-    @NSManaged var name:String?
-    @NSManaged var time:NSDate!
+    @NSManaged var name:String
+    @NSManaged var time:NSDate
+    @NSManaged var reminderOn:Bool
     @NSManaged var isPublic:Bool
     @NSManaged var isShared:Bool
     @NSManaged var location:String?
@@ -45,12 +46,13 @@ class UserEvent : PFObject {
     }
     
     // Initializer for UserEvent Class
-    init(name:String?, time:NSDate, location:String?, user:PFUser) {
+    init(name:String, reminderOn:Bool, time:NSDate, location:String?, user:PFUser) {
         super.init()
         self.name = name
-        self.time = time
         self.location = location
         self.user = user
+        self.reminderOn = reminderOn
+        self.time = time
         self.sharedToUsers = []
         self.isPublic = false
         self.isShared = false
