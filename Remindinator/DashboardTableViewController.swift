@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DashboardTableViewController: PFQueryTableViewController {
+class DashboardTableViewController: PFQueryTableViewController, AddEventTableViewControllerDelegate {
     
     var eventsPopulated:[UserEvent] = []
     
@@ -23,8 +23,9 @@ class DashboardTableViewController: PFQueryTableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        loadObjects()
         self.loadEvents()
+        loadObjects()
+        self.tableView.reloadData()
     }
     
     override func queryForTable() -> PFQuery {
@@ -159,12 +160,72 @@ class DashboardTableViewController: PFQueryTableViewController {
         return eventSelected
     }
     
+    func addEventTableViewControllerDidCancel(controller: AddEventTableViewController) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func addEventTableViewController(controller: AddEventTableViewController, didFinishAddingEvent event: UserEvent) {
+        event.saveInBackgroundWithBlock{ succeeded, error in
+            if succeeded {
+                // when the event is successfully saved.
+                print("Successfully saved Event!")
+                self.navigationController?.popViewControllerAnimated(true)
+            } else {
+                // when the event is not stored successfully.
+                if let errorMessage = error?.userInfo["error"] as? String {
+                    print("\(error?.localizedDescription) : \(errorMessage)")
+                }
+            }
+        }
+    }
+    
+    func addEventTableViewController(controller: AddEventTableViewController, didFinishEditingEvent event: UserEvent) {
+        
+        let query = PFQuery(className: UserEvent.parseClassName())
+        
+        query.getObjectInBackgroundWithId(event.objectId!) {
+            (userEvent: PFObject?, error: NSError?) -> Void in
+            
+            if error == nil {
+                dispatch_async(dispatch_get_main_queue()) {
+                    userEvent!["name"] = event.name
+                    userEvent!["location"] = event.location
+                    userEvent!["user"] = event.user
+                    userEvent!["reminderOn"] = event.reminderOn
+                    userEvent!["time"] = event.time
+                    userEvent!["sharedToUsers"] = event.sharedToUsers
+                    userEvent!["isPublic"] = event.isPublic
+                    userEvent!["isShared"] = event.isShared
+                    
+                    userEvent?.saveInBackground()
+                    
+                    print("Successfully updated the userevent!!")
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+            } else {
+                if let error = error {
+                    print("Something has gone terribly wrong! \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
     //Here all the segues are handled based on their identifiers.
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "AddEvent" {
+            let addEventVC = segue.destinationViewController as! AddEventTableViewController
+            
+            addEventVC.delegate = self
+        }
+        
         if segue.identifier == "EditEvent" {
             let editEventVC = segue.destinationViewController as! AddEventTableViewController
             
-            editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(self.tableView.indexPathForCell(sender as! DashboardEventTableViewCell)!)!)
+            editEventVC.delegate = self
+            
+            if let indexPath = self.tableView.indexPathForCell(sender as! DashboardEventTableViewCell) {
+                editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(indexPath)!)
+            }
         }
     }
     

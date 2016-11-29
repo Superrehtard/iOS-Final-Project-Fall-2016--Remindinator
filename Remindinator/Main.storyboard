@@ -68,7 +68,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="mOh-di-YxS" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="100" id="3g9-MC-cGs"/>
                             <constraint firstItem="8h4-7K-0kW" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3nP-4o-ZKu"/>
@@ -152,7 +152,7 @@
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                         </subviews>
-                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="1hd-m5-vO0" firstAttribute="width" secondItem="6Al-Lq-Led" secondAttribute="width" id="4wa-Pf-QS7"/>
                             <constraint firstItem="qFx-TT-3jI" firstAttribute="centerX" secondItem="ye4-pW-mlc" secondAttribute="centerX" id="5G9-OG-FcE"/>
@@ -358,13 +358,13 @@
         <scene sceneID="s0w-ac-9Sf">
             <objects>
                 <tableViewController id="wKe-EF-4Gd" customClass="DashboardTableViewController" customModule="Remindinator" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" id="4CO-3U-Y5T">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="56" sectionHeaderHeight="18" sectionFooterHeight="18" id="4CO-3U-Y5T">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="eventCell" rowHeight="60" id="cim-tb-SxV" customClass="DashboardEventTableViewCell" customModule="Remindinator" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="60"/>
+                            <tableViewCell clipsSubviews="YES" alpha="0.29999999999999999" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="eventCell" rowHeight="60" id="cim-tb-SxV" customClass="DashboardEventTableViewCell" customModule="Remindinator" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="113.5" width="600" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cim-tb-SxV" id="7Xk-IJ-KNF">
                                     <rect key="frame" x="0.0" y="0.0" width="533" height="59.5"/>
@@ -447,7 +447,7 @@
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="qak-9w-FLg">
                                 <connections>
-                                    <segue destination="sra-7n-P9O" kind="show" id="bAw-CZ-Oap"/>
+                                    <segue destination="sra-7n-P9O" kind="show" identifier="AddEvent" id="bAw-CZ-Oap"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem image="Gender Neutral User Filled-30" id="Y5Y-3L-G8g">
@@ -477,7 +477,7 @@
                         <sections>
                             <tableViewSection id="nKM-Ew-TK4">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="eventName_Cell" id="KfF-Ol-e9v">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="eventName_Cell" id="KfF-Ol-e9v">
                                         <rect key="frame" x="0.0" y="99" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KfF-Ol-e9v" id="5X5-WG-mgD">
@@ -714,7 +714,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="7pe-G9-5dg">
                             <connections>
-                                <action selector="addEvent:" destination="sra-7n-P9O" id="nNl-Eo-V2J"/>
+                                <action selector="done:" destination="sra-7n-P9O" id="Ldj-lq-4hz"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -844,7 +844,7 @@
         <image name="Gender Neutral User Filled-30" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0DG-AI-CYK"/>
-        <segue reference="d3Y-cH-wtx"/>
+        <segue reference="Krs-ed-bAL"/>
+        <segue reference="bAw-CZ-Oap"/>
     </inferredMetricsTieBreakers>
 </document>

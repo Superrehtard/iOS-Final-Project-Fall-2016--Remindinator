@@ -9,12 +9,19 @@
 import UIKit
 import Parse
 
+protocol AddEventTableViewControllerDelegate : class {
+    func addEventTableViewControllerDidCancel(controller: AddEventTableViewController)
+    func addEventTableViewController(controller: AddEventTableViewController, didFinishAddingEvent event: UserEvent)
+    func addEventTableViewController(controller: AddEventTableViewController, didFinishEditingEvent event: UserEvent)
+}
+
 class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     
     // Stored properties.
     var datePickerVisible = false
     var dueDate = NSDate()
     var sharedContacts:[PFUser] = []
+    weak var delegate:AddEventTableViewControllerDelegate?
     
     // UserEvent that is to be edited.
     var eventToEdit:UserEvent!
@@ -35,34 +42,47 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     }
     
     // Function called when user clicks on Add. This functions adds an userEvent in the background.
-    @IBAction func addEvent(sender: AnyObject) {
+    @IBAction func done(sender: AnyObject) {
         
-        // getting the date set fromt the date picker.
+        if let event = eventToEdit {
+            getUpdatedEvent(event)
+            
+            self.delegate?.addEventTableViewController(self, didFinishEditingEvent: event)
+        } else {
+            // getting the date set from the date picker.
+            if self.reminderToggleSwitch.on {
+                getEventDate()
+            }
+            
+            // creating the UserEvent based on the user input.
+            let event = UserEvent(name: eventNameTextField.text!,reminderOn:self.reminderToggleSwitch.on, time: self.dueDate, location: "Some Location", user: PFUser.currentUser()!)
+            event.isPublic = self.isPublicToggleSwitch.on
+            event.isShared = self.isSharedToggleSwitch.on
+            
+            // when the share switch is toggled on, the added contacts are stored in the userEvent.
+            if self.isSharedToggleSwitch.on {
+                event.sharedToUsers = self.sharedContacts
+            }
+            
+            // Save the newly created userEvent.
+            self.delegate?.addEventTableViewController(self, didFinishAddingEvent: event)
+        }
+    }
+    
+    //Function to assign the values on the form to the passed in event.
+    func getUpdatedEvent(event: UserEvent) {
         getEventDate()
         
-        // creating the UserEvent based on the user input.
-        let dashboardEvent = UserEvent(name: eventNameTextField.text!,reminderOn:self.reminderToggleSwitch.on, time: self.dueDate, location: "Some Location", user: PFUser.currentUser()!)
-        dashboardEvent.isPublic = self.isPublicToggleSwitch.on
-        dashboardEvent.isShared = self.isSharedToggleSwitch.on
+        event.name = eventNameTextField.text!
+        event.reminderOn = self.reminderToggleSwitch.on
+        event.time = self.dueDate
+        event.isPublic = self.isPublicToggleSwitch.on
+        event.isShared = self.isSharedToggleSwitch.on
         
-        // when the share switch is toggled on, the added contacts are stored in the userEvent.
         if self.isSharedToggleSwitch.on {
-            dashboardEvent.sharedToUsers = self.sharedContacts
-        }
-        
-        //Save the newly created userEvent.
-        // To Do:## Refactor the object name to something meaningful.
-        dashboardEvent.saveInBackgroundWithBlock{ succeeded, error in
-            if succeeded {
-                // when the event is successfully saved.
-                print("Successfully saved Event!")
-                self.navigationController?.popViewControllerAnimated(true)
-            } else {
-                // when the event is not stored successfully.
-                if let errorMessage = error?.userInfo["error"] as? String {
-                    print("\(error?.localizedDescription) : \(errorMessage)")
-                }
-            }
+            event.sharedToUsers = self.sharedContacts
+        } else {
+            event.sharedToUsers = []
         }
     }
     
@@ -195,6 +215,14 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
             }
         }
         
+        if indexPath.section == 2 && indexPath.row == 1 {
+            if reminderToggleSwitch.on {
+                return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+            } else {
+                return 0.0
+            }
+        }
+        
         if indexPath.section == 2 && indexPath.row == 2 {
             return 217
         } else {
@@ -247,7 +275,9 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     
     // function is called when user cancels adding a event.
     @IBAction func cancelAddingEvent(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+        delegate?.addEventTableViewControllerDidCancel(self)
+        
+//        self.navigationController?.popViewControllerAnimated(true)
     }
     
     // This funciton enables or disabled eventName textfield based on its contents.
