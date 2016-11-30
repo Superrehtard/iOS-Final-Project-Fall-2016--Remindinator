@@ -25,7 +25,12 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        userProfileIV.userInteractionEnabled = true
+        self.userProfileIV.layer.cornerRadius = self.userProfileIV.frame.size.height / 2
+        self.userProfileIV.clipsToBounds = true
+        
+        self.userProfileIV.layer.borderWidth = 3
+        self.userProfileIV.layer.borderColor = UIColor.whiteColor().CGColor
+        self.userProfileIV.userInteractionEnabled = true
         let user = PFUser.currentUser()!
         if let userImageFile = user["image"] as? PFFile {
             userImageFile.getDataInBackgroundWithBlock {
@@ -33,6 +38,7 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 if error == nil {
                     if let imageData = imageData {
                         self.userProfileIV.image = UIImage(data:imageData)
+                        
                     }
                 } else {
                     print("Something has happened: \(error)")
@@ -42,6 +48,8 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             let image = UIImage(named: "Gender Neutral User Filled-100")
             let imageData = UIImagePNGRepresentation(image!)
             let imageFile = PFFile(name: user.username, data: imageData!)
+            
+            self.userProfileIV.image = image
             
             user["image"] = imageFile
             

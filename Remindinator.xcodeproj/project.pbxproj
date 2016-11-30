@@ -30,6 +30,7 @@
 		7274ED7E1DCE8835005B2560 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7274ED7D1DCE8834005B2560 /* ParseUI.framework */; };
 		72A3BFBA1DD9A89600B039E9 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A3BFB91DD9A89600B039E9 /* ContactTableViewCell.swift */; };
 		72A3BFBE1DD9A91000B039E9 /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A3BFBD1DD9A91000B039E9 /* ContactsTableViewController.swift */; };
+		72C7C7BF1DEEC6BD00A7967D /* CustomImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C7C7BE1DEEC6BD00A7967D /* CustomImage.swift */; };
 		72DBA8EE1DD1C27D00CB2642 /* UserEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DBA8ED1DD1C27D00CB2642 /* UserEvent.swift */; };
 		72DBA8F01DD1C5F200CB2642 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72DBA8EF1DD1C5F200CB2642 /* Images.xcassets */; };
 		72F8678B1DBD95C800AEB80A /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F8678A1DBD95C800AEB80A /* UserViewController.swift */; };
@@ -84,6 +85,7 @@
 		72824E6D1DC1812000E2B626 /* Remindinator-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Remindinator-Bridging-Header.h"; sourceTree = "<group>"; };
 		72A3BFB91DD9A89600B039E9 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		72A3BFBD1DD9A91000B039E9 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
+		72C7C7BE1DEEC6BD00A7967D /* CustomImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomImage.swift; sourceTree = "<group>"; };
 		72DBA8ED1DD1C27D00CB2642 /* UserEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserEvent.swift; sourceTree = "<group>"; };
 		72DBA8EF1DD1C5F200CB2642 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		72F8678A1DBD95C800AEB80A /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				72DBA8ED1DD1C27D00CB2642 /* UserEvent.swift */,
+				72C7C7BE1DEEC6BD00A7967D /* CustomImage.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72C7C7BF1DEEC6BD00A7967D /* CustomImage.swift in Sources */,
 				72A3BFBA1DD9A89600B039E9 /* ContactTableViewCell.swift in Sources */,
 				72F8678B1DBD95C800AEB80A /* UserViewController.swift in Sources */,
 				726542F31DCFF2DE001680D9 /* EventNameTableViewCell.swift in Sources */,
