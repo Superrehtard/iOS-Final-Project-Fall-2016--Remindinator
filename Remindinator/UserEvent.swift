@@ -8,6 +8,7 @@
 
 import Foundation
 import Parse
+import EventKit
 
 class UserEvent : PFObject {
     
@@ -20,6 +21,8 @@ class UserEvent : PFObject {
     @NSManaged var location:String?
     @NSManaged var user:PFUser
     @NSManaged var sharedToUsers:[PFUser]
+    @NSManaged var calenderItemIdentifier:String
+    
     
     // Funciton that returns a query on the PFObject(in this particular case the PFObject is UserEvent)
     override class func query() -> PFQuery? {

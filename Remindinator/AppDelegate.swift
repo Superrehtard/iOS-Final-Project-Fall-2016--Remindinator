@@ -10,12 +10,14 @@ import UIKit
 import CoreData
 import Parse
 import Bolts
+import EventKit
 
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var eventStore:EKEventStore!
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -27,23 +29,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Parse.initializeWithConfiguration(configuration)
         
         // To ask for user permissions to display local notifications.
-        let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Sound], categories: nil)
-        UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
+//        let notificationSettings = UIUserNotificationSettings(forTypes: [.Alert, .Sound], categories: nil)
+//        UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
+//        
+//        let date = NSDate(timeIntervalSinceNow: 10)
+//        let localNotification = UILocalNotification()
+//        localNotification.fireDate = date
+//        localNotification.timeZone = NSTimeZone.defaultTimeZone()
+//        localNotification.alertBody = "I am a local notification!"
+//        localNotification.soundName = UILocalNotificationDefaultSoundName
+//        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
         
-        let date = NSDate(timeIntervalSinceNow: 10)
-        let localNotification = UILocalNotification()
-        localNotification.fireDate = date
-        localNotification.timeZone = NSTimeZone.defaultTimeZone()
-        localNotification.alertBody = "I am a local notification!"
-        localNotification.soundName = UILocalNotificationDefaultSoundName
-        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+        eventStore = EKEventStore()
+        
+        self.eventStore.requestAccessToEntityType(EKEntityType.Reminder) { (granted: Bool, error: NSError?) -> Void in
+            
+            if !granted {
+                print("The app is not permitted to access reminders, make sure to grant permission in the settings and try again")
+            }
+        }
         
         return true
     }
     
-    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
-        print("didReceiveLocalNotificaiton \(notification)")
+    func dateComponentFromNSDate(date: NSDate)-> NSDateComponents{
+        
+        let calendarUnit: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
+        let dateComponents = NSCalendar.currentCalendar().components(calendarUnit, fromDate: date)
+        return dateComponents
     }
+    
+//    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+//        print("didReceiveLocalNotificaiton \(notification)")
+//    }
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

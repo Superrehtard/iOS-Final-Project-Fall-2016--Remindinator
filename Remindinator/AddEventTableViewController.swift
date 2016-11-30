@@ -8,6 +8,7 @@
 
 import UIKit
 import Parse
+import EventKit
 
 protocol AddEventTableViewControllerDelegate : class {
     func addEventTableViewControllerDidCancel(controller: AddEventTableViewController)
@@ -26,6 +27,9 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     // UserEvent that is to be edited.
     var eventToEdit:UserEvent!
     
+    // Event Store
+    var eventStore:EKEventStore!
+    
     // Outlets.
     @IBOutlet weak var eventNameTextField: UITextField!
     @IBOutlet weak var isPublicToggleSwitch: UISwitch!
@@ -36,6 +40,34 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var doneBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var eventDatePicker: UIDatePicker!
     @IBOutlet weak var eventDatePickerCell: UITableViewCell!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        eventStore = appDelegate.eventStore
+        
+        tableView.registerClass(EventNameTableViewCell.self, forCellReuseIdentifier: "eventName_Cell")
+        
+        tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
+        tableView.tableFooterView = UIView(frame: CGRectZero)
+        
+        self.eventDatePicker.minimumDate = NSDate()
+        
+        eventNameTextField.becomeFirstResponder()
+        
+        if let event = eventToEdit {
+            self.title = "Edit Event"
+            
+            self.eventNameTextField.text = event.name
+            self.isPublicToggleSwitch.on = event.isPublic
+            self.isSharedToggleSwitch.on = event.isShared
+            self.reminderToggleSwitch.on = event.reminderOn
+            self.dueDate = event.time
+            self.updateEventDateLabel()
+        }
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -63,6 +95,24 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
             if self.isSharedToggleSwitch.on {
                 event.sharedToUsers = self.sharedContacts
             }
+            
+            let reminder = EKReminder(eventStore: self.eventStore)
+            reminder.title = eventNameTextField.text!
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let dueDateComponents = appDelegate.dateComponentFromNSDate(self.dueDate)
+            reminder.dueDateComponents = dueDateComponents
+            reminder.calendar = self.eventStore.defaultCalendarForNewReminders()
+            // 2
+            do {
+                try self.eventStore.saveReminder(reminder, commit: true)
+                dismissViewControllerAnimated(true, completion: nil)
+            }catch{
+                print("Error creating and saving new reminder : \(error)")
+            }
+            
+            event.calenderItemIdentifier = reminder.calendarItemIdentifier
+            
+            print(event.calenderItemIdentifier)
             
             // Save the newly created userEvent.
             self.delegate?.addEventTableViewController(self, didFinishAddingEvent: event)
@@ -233,30 +283,6 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     // Default height for all the tableview cells.
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 44.0
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        tableView.registerClass(EventNameTableViewCell.self, forCellReuseIdentifier: "eventName_Cell")
-        
-        tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
-        tableView.tableFooterView = UIView(frame: CGRectZero)
-        
-        self.eventDatePicker.minimumDate = NSDate()
-        
-        eventNameTextField.becomeFirstResponder()
-        
-        if let event = eventToEdit {
-            self.title = "Edit Event"
-            
-            self.eventNameTextField.text = event.name
-            self.isPublicToggleSwitch.on = event.isPublic
-            self.isSharedToggleSwitch.on = event.isShared
-            self.reminderToggleSwitch.on = event.reminderOn
-            self.dueDate = event.time
-            self.updateEventDateLabel()
-        }
     }
     
     override func didReceiveMemoryWarning() {

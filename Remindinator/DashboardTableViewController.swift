@@ -7,13 +7,19 @@
 //
 
 import UIKit
+import EventKit
 
 class DashboardTableViewController: PFQueryTableViewController, AddEventTableViewControllerDelegate {
     
     var eventsPopulated:[UserEvent] = []
+    var eventStore:EKEventStore!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        self.eventStore = appDelegate.eventStore
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -25,7 +31,6 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
     override func viewWillAppear(animated: Bool) {
         self.loadEvents()
         loadObjects()
-        self.tableView.reloadData()
     }
     
     override func queryForTable() -> PFQuery {
@@ -100,17 +105,33 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
             (objects: [PFObject]?, error: NSError?) -> Void in
             
             if error == nil {
-                dispatch_async(dispatch_get_main_queue()) {
-                    if objects?.count > 0 {
-                        for object in objects! {
-                            if (((object as! UserEvent).objectId?.compare(cell.objectId!)) == .OrderedSame) {
-                                object.deleteInBackground()
+                if objects?.count > 0 {
+                    for event in objects! {
+                        if (((event as! UserEvent).objectId?.compare(cell.objectId!)) == .OrderedSame) {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                print((event as! UserEvent).calenderItemIdentifier)
+                                if (event as! UserEvent).calenderItemIdentifier != "" {
+                                    
+                                    
+                                    let reminderToDelete = self.eventStore.calendarItemWithIdentifier((event as! UserEvent).calenderItemIdentifier) as! EKReminder
+                                    
+                                    do{
+                                        try self.eventStore.removeReminder(reminderToDelete, commit: true)
+                                        print("Reminder successfully deleted!")
+                                    }catch{
+                                        print("An error occurred while removing the reminder from the Calendar database: \(error)")
+                                    }
+                                    
+                                }
+                                
+                                event.deleteInBackground()
+                                
+                                print("Successfully fetched UserEvent and Deleted the Same!")
                             }
+                            
+//                            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
                         }
                     }
-                    self.loadObjects()
-                    tableView.reloadData()
-                    print("Successfully fetched Userevent and deleted the same.")
                 }
             } else {
                 if let error = error {
@@ -118,6 +139,9 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
                 }
             }
         }
+        
+        self.loadObjects()
+        tableView.reloadData()
     }
     
     //This function is called everytime the view appears and it loads all the userevents into the eventsPopulated array.
