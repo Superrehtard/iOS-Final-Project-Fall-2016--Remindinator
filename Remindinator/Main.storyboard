@@ -378,13 +378,13 @@
         <scene sceneID="s0w-ac-9Sf">
             <objects>
                 <tableViewController id="wKe-EF-4Gd" customClass="DashboardTableViewController" customModule="Remindinator" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="56" sectionHeaderHeight="18" sectionFooterHeight="18" id="4CO-3U-Y5T">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" id="4CO-3U-Y5T">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" alpha="0.29999999999999999" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="eventCell" rowHeight="60" id="cim-tb-SxV" customClass="DashboardEventTableViewCell" customModule="Remindinator" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="113.5" width="600" height="60"/>
+                            <tableViewCell clipsSubviews="YES" alpha="0.29999999999999999" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="UserEventCell" rowHeight="60" id="cim-tb-SxV" customClass="DashboardEventTableViewCell" customModule="Remindinator" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cim-tb-SxV" id="7Xk-IJ-KNF">
                                     <rect key="frame" x="0.0" y="0.0" width="533" height="59.5"/>
@@ -450,6 +450,74 @@
                                     <outlet property="eventReminderTime" destination="U1T-hQ-tW0" id="jgt-DP-3Fe"/>
                                     <outlet property="userImage" destination="SOs-d6-w1a" id="2i4-E8-OaR"/>
                                     <segue destination="sra-7n-P9O" kind="show" identifier="EditEvent" trigger="accessoryAction" id="d3Y-cH-wtx"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" alpha="0.30000001192092896" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PublicEventCell" rowHeight="60" id="LXN-qA-7YW" customClass="DashboardEventTableViewCell" customModule="Remindinator" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="152" width="600" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LXN-qA-7YW" id="A6z-A1-NS7">
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="59.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZCX-wP-3OO">
+                                            <rect key="frame" x="76" y="0.0" width="217.5" height="51.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30.5" id="t0s-Kc-cbj"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="t0s-Kc-cbj"/>
+                                                </mask>
+                                            </variation>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nFP-Ec-Hrb">
+                                            <rect key="frame" x="8" y="0.0" width="60" height="51.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="60" id="EO7-KV-vcS"/>
+                                                <constraint firstAttribute="height" constant="51.5" id="s5S-3H-cFE"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ps-Xx-kTE">
+                                            <rect key="frame" x="301" y="0.0" width="217.5" height="51.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="SgJ-Ml-zrs"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="SgJ-Ml-zrs"/>
+                                                </mask>
+                                            </variation>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="2ps-Xx-kTE" firstAttribute="height" secondItem="ZCX-wP-3OO" secondAttribute="height" id="AGA-Ge-Me6"/>
+                                        <constraint firstItem="2ps-Xx-kTE" firstAttribute="leading" secondItem="ZCX-wP-3OO" secondAttribute="trailing" constant="8" id="CKa-oD-fJ9"/>
+                                        <constraint firstItem="ZCX-wP-3OO" firstAttribute="leading" secondItem="nFP-Ec-Hrb" secondAttribute="trailing" constant="8" id="IGr-qH-biY"/>
+                                        <constraint firstItem="2ps-Xx-kTE" firstAttribute="width" secondItem="ZCX-wP-3OO" secondAttribute="width" id="IeY-Wx-7KO"/>
+                                        <constraint firstItem="nFP-Ec-Hrb" firstAttribute="top" secondItem="A6z-A1-NS7" secondAttribute="topMargin" constant="-8" id="Nv0-IA-dyk"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="2ps-Xx-kTE" secondAttribute="trailing" constant="40" id="cuU-vg-HF2"/>
+                                        <constraint firstItem="2ps-Xx-kTE" firstAttribute="top" secondItem="A6z-A1-NS7" secondAttribute="topMargin" id="eaz-Ka-UB2"/>
+                                        <constraint firstItem="ZCX-wP-3OO" firstAttribute="top" secondItem="nFP-Ec-Hrb" secondAttribute="top" id="glj-Hr-ybW"/>
+                                        <constraint firstItem="nFP-Ec-Hrb" firstAttribute="leading" secondItem="A6z-A1-NS7" secondAttribute="leadingMargin" id="m0f-qY-YRs"/>
+                                        <constraint firstItem="2ps-Xx-kTE" firstAttribute="top" secondItem="ZCX-wP-3OO" secondAttribute="top" id="r2n-yx-YEw"/>
+                                        <constraint firstItem="ZCX-wP-3OO" firstAttribute="height" secondItem="nFP-Ec-Hrb" secondAttribute="height" id="u9i-h3-QsD"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="eaz-Ka-UB2"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="eventName" destination="ZCX-wP-3OO" id="nHB-Ey-BKM"/>
+                                    <outlet property="eventReminderTime" destination="2ps-Xx-kTE" id="P1b-aD-ecA"/>
+                                    <outlet property="userImage" destination="nFP-Ec-Hrb" id="Y1U-Pg-gtT"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -865,6 +933,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Krs-ed-bAL"/>
-        <segue reference="bAw-CZ-Oap"/>
+        <segue reference="d3Y-cH-wtx"/>
     </inferredMetricsTieBreakers>
 </document>

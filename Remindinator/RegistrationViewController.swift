@@ -43,6 +43,7 @@ class RegistrationViewController: UIViewController {
         let imageFile = PFFile(name: userNameTF.text!, data: imageData!)
         
         user["image"] = imageFile
+        user.saveInBackground()
         
         user.signUpInBackgroundWithBlock {
             succeded, error in

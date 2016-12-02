@@ -13,6 +13,7 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
     
     var eventsPopulated:[UserEvent] = []
     var eventStore:EKEventStore!
+    var sharedToCurrentUser:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +35,7 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
     }
     
     override func queryForTable() -> PFQuery {
-        let query = UserEvent.queryForPublicEvents()
+        let query = UserEvent.queryForDashboardEvents()
         return query!
     }
     
@@ -44,12 +45,29 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell? {
-        let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! DashboardEventTableViewCell
+        var cell:DashboardEventTableViewCell
         
         let event = object as! UserEvent
+        self.sharedToCurrentUser = false
+        
+        event.getSharedContacts()?.forEach({ (user) in
+            if PFUser.currentUser()!.objectId == user.objectId {
+                self.sharedToCurrentUser = true
+                return
+            }
+        })
+        
+        if event.user.objectId?.compare((PFUser.currentUser()?.objectId)!) == .OrderedSame || self.sharedToCurrentUser {
+            cell = tableView.dequeueReusableCellWithIdentifier("UserEventCell", forIndexPath: indexPath) as! DashboardEventTableViewCell
+        } else {
+            cell = tableView.dequeueReusableCellWithIdentifier("PublicEventCell", forIndexPath: indexPath) as! DashboardEventTableViewCell
+        }
+        
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+        
+        print(PFUser.currentUser()?.username)
         
         if let userImageFile = event.user["image"] as? PFFile {
             userImageFile.getDataInBackgroundWithBlock {
@@ -93,6 +111,10 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
         }
         
         return false
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     //Function that implements the deleting functionality to the tableviewcells.
@@ -224,7 +246,29 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
                     userEvent?.saveInBackground()
                     
                     print("Successfully updated the userevent!!")
-                    self.navigationController?.popViewControllerAnimated(true)
+                    
+                    if event.calenderItemIdentifier != "" {
+                        
+                        
+                        let reminderToEdit = self.eventStore.calendarItemWithIdentifier(event.calenderItemIdentifier) as! EKReminder
+                        
+                        reminderToEdit.title = event.name
+                        reminderToEdit.completed = false
+                        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                        let dueDateComponents = appDelegate.dateComponentFromNSDate(event.time)
+                        reminderToEdit.dueDateComponents = dueDateComponents
+                        reminderToEdit.alarms?.first?.absoluteDate = NSCalendar.currentCalendar().dateFromComponents(dueDateComponents)
+                        reminderToEdit.calendar = self.eventStore.defaultCalendarForNewReminders()
+                        do {
+                            try self.eventStore.saveReminder(reminderToEdit, commit: true)
+                            self.navigationController?.popViewControllerAnimated(true)
+                        }catch{
+                            print("Error creating and saving new reminder : \(error)")
+                        }
+                        
+                    }
+                    
+//                    self.navigationController?.popViewControllerAnimated(true)
                 }
             } else {
                 if let error = error {

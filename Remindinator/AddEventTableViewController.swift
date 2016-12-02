@@ -99,9 +99,14 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
             let reminder = EKReminder(eventStore: self.eventStore)
             reminder.title = eventNameTextField.text!
             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            let dueDateComponents = appDelegate.dateComponentFromNSDate(self.dueDate)
-            reminder.dueDateComponents = dueDateComponents
+            
             reminder.calendar = self.eventStore.defaultCalendarForNewReminders()
+            reminder.dueDateComponents = appDelegate.dateComponentFromNSDate(self.dueDate)
+            
+            let alarm = EKAlarm(absoluteDate: self.dueDate)
+            
+            reminder.addAlarm(alarm)
+            
             // 2
             do {
                 try self.eventStore.saveReminder(reminder, commit: true)

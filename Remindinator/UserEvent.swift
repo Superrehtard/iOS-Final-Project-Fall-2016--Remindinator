@@ -22,6 +22,8 @@ class UserEvent : PFObject {
     @NSManaged var user:PFUser
     @NSManaged var sharedToUsers:[PFUser]
     @NSManaged var calenderItemIdentifier:String
+    @NSManaged var completed:Bool
+    @NSManaged var completionDate:NSDate?
     
     
     // Funciton that returns a query on the PFObject(in this particular case the PFObject is UserEvent)
@@ -48,6 +50,25 @@ class UserEvent : PFObject {
         return query
     }
     
+    class func queryForDashboardEvents() -> PFQuery? {
+        let publicEvents = PFQuery(className:UserEvent.parseClassName())
+        publicEvents.whereKey("isPublic", equalTo:true)
+        
+        let sharedEvents = PFQuery(className:UserEvent.parseClassName())
+        sharedEvents.whereKey("sharedToUsers", equalTo:PFUser.currentUser()!)
+        
+        let query = PFQuery.orQueryWithSubqueries([publicEvents, sharedEvents])
+        
+        query.includeKey("user")
+        query.orderByAscending("createdAt")
+        
+        return query
+    }
+    
+    func getSharedContacts() -> [PFUser]? {
+        return self.sharedToUsers
+    }
+    
     // Initializer for UserEvent Class
     init(name:String, reminderOn:Bool, time:NSDate, location:String?, user:PFUser) {
         super.init()
@@ -59,6 +80,7 @@ class UserEvent : PFObject {
         self.sharedToUsers = []
         self.isPublic = false
         self.isShared = false
+        self.completed = false
     }
     
     override init() {

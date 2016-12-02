@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func dateComponentFromNSDate(date: NSDate)-> NSDateComponents{
         
-        let calendarUnit: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
+        let calendarUnit: NSCalendarUnit = [.Hour, .Day, .Month, .Year, .Minute, .Second]
         let dateComponents = NSCalendar.currentCalendar().components(calendarUnit, fromDate: date)
         return dateComponents
     }
