@@ -383,15 +383,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" alpha="0.29999999999999999" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="UserEventCell" rowHeight="60" id="cim-tb-SxV" customClass="DashboardEventTableViewCell" customModule="Remindinator" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" alpha="0.29999999999999999" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="UserEventCell" rowHeight="60" id="cim-tb-SxV" customClass="DashboardEventTableViewCell" customModule="Remindinator" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cim-tb-SxV" id="7Xk-IJ-KNF">
-                                    <rect key="frame" x="0.0" y="0.0" width="533" height="59.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="91a-FZ-tIs">
-                                            <rect key="frame" x="76" y="0.0" width="200.5" height="51.5"/>
+                                            <rect key="frame" x="76" y="0.0" width="207" height="52"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30.5" id="Zvr-qM-Qqm"/>
                                             </constraints>
@@ -405,14 +405,14 @@
                                             </variation>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SOs-d6-w1a">
-                                            <rect key="frame" x="8" y="0.0" width="60" height="51.5"/>
+                                            <rect key="frame" x="8" y="0.0" width="60" height="52"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="60" id="g7m-pb-l8V"/>
                                                 <constraint firstAttribute="height" constant="51.5" id="x6S-uj-oiX"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U1T-hQ-tW0">
-                                            <rect key="frame" x="284.5" y="0.0" width="200.5" height="51.5"/>
+                                            <rect key="frame" x="291" y="0.0" width="207" height="52"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="rm0-pG-h1h"/>
                                             </constraints>
@@ -425,15 +425,29 @@
                                                 </mask>
                                             </variation>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p8O-ts-JYT">
+                                            <rect key="frame" x="534" y="17" width="25" height="25"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="25" id="N3l-GU-dsa"/>
+                                                <constraint firstAttribute="height" constant="25" id="j7f-sb-OKg"/>
+                                            </constraints>
+                                            <state key="normal" image="Edit-30"/>
+                                            <connections>
+                                                <segue destination="sra-7n-P9O" kind="show" identifier="EditEvent" id="hr0-PB-IZo"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="U1T-hQ-tW0" firstAttribute="top" secondItem="91a-FZ-tIs" secondAttribute="top" id="1W1-TZ-fbQ"/>
                                         <constraint firstItem="U1T-hQ-tW0" firstAttribute="leading" secondItem="91a-FZ-tIs" secondAttribute="trailing" constant="8" id="CwN-Wb-zaW"/>
                                         <constraint firstItem="91a-FZ-tIs" firstAttribute="leading" secondItem="SOs-d6-w1a" secondAttribute="trailing" constant="8" id="S0o-tq-Kkp"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="U1T-hQ-tW0" secondAttribute="trailing" constant="40" id="Uj4-uR-M9K"/>
+                                        <constraint firstItem="p8O-ts-JYT" firstAttribute="leading" secondItem="U1T-hQ-tW0" secondAttribute="trailing" constant="36" id="UpY-2v-3EM"/>
+                                        <constraint firstItem="p8O-ts-JYT" firstAttribute="centerY" secondItem="7Xk-IJ-KNF" secondAttribute="centerY" constant="-0.25" id="YbJ-AL-LDt"/>
                                         <constraint firstItem="91a-FZ-tIs" firstAttribute="top" secondItem="SOs-d6-w1a" secondAttribute="top" id="abK-9f-zRg"/>
                                         <constraint firstItem="U1T-hQ-tW0" firstAttribute="top" secondItem="7Xk-IJ-KNF" secondAttribute="topMargin" id="b43-XY-UIc"/>
                                         <constraint firstItem="U1T-hQ-tW0" firstAttribute="width" secondItem="91a-FZ-tIs" secondAttribute="width" id="eNk-VL-0Eb"/>
+                                        <constraint firstAttribute="trailing" secondItem="p8O-ts-JYT" secondAttribute="trailing" constant="8" id="fg5-MA-Oyl"/>
                                         <constraint firstItem="SOs-d6-w1a" firstAttribute="leading" secondItem="7Xk-IJ-KNF" secondAttribute="leadingMargin" id="l7c-Z9-mfb"/>
                                         <constraint firstItem="91a-FZ-tIs" firstAttribute="height" secondItem="SOs-d6-w1a" secondAttribute="height" id="rlu-7Q-xPw"/>
                                         <constraint firstItem="U1T-hQ-tW0" firstAttribute="height" secondItem="91a-FZ-tIs" secondAttribute="height" id="rxI-sB-ta2"/>
@@ -441,15 +455,16 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
+                                            <exclude reference="Uj4-uR-M9K"/>
                                             <exclude reference="b43-XY-UIc"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="addOrEditButton" destination="p8O-ts-JYT" id="gx3-lF-doi"/>
                                     <outlet property="eventName" destination="91a-FZ-tIs" id="jhD-6h-J8V"/>
                                     <outlet property="eventReminderTime" destination="U1T-hQ-tW0" id="jgt-DP-3Fe"/>
                                     <outlet property="userImage" destination="SOs-d6-w1a" id="2i4-E8-OaR"/>
-                                    <segue destination="sra-7n-P9O" kind="show" identifier="EditEvent" trigger="accessoryAction" id="d3Y-cH-wtx"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" alpha="0.30000001192092896" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PublicEventCell" rowHeight="60" id="LXN-qA-7YW" customClass="DashboardEventTableViewCell" customModule="Remindinator" customModuleProvider="target">
@@ -460,7 +475,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZCX-wP-3OO">
-                                            <rect key="frame" x="76" y="0.0" width="217.5" height="51.5"/>
+                                            <rect key="frame" x="76" y="0.0" width="207" height="52"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30.5" id="t0s-Kc-cbj"/>
                                             </constraints>
@@ -474,14 +489,14 @@
                                             </variation>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nFP-Ec-Hrb">
-                                            <rect key="frame" x="8" y="0.0" width="60" height="51.5"/>
+                                            <rect key="frame" x="8" y="0.0" width="60" height="52"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="60" id="EO7-KV-vcS"/>
                                                 <constraint firstAttribute="height" constant="51.5" id="s5S-3H-cFE"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ps-Xx-kTE">
-                                            <rect key="frame" x="301" y="0.0" width="217.5" height="51.5"/>
+                                            <rect key="frame" x="291" y="0.0" width="207" height="52"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="SgJ-Ml-zrs"/>
                                             </constraints>
@@ -494,6 +509,14 @@
                                                 </mask>
                                             </variation>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ed-ce-pv9">
+                                            <rect key="frame" x="534" y="17" width="25" height="25"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="25" id="1f7-1d-MJb"/>
+                                                <constraint firstAttribute="height" constant="25" id="4Wh-iO-BoX"/>
+                                            </constraints>
+                                            <state key="normal" image="Plus-30"/>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="2ps-Xx-kTE" firstAttribute="height" secondItem="ZCX-wP-3OO" secondAttribute="height" id="AGA-Ge-Me6"/>
@@ -501,20 +524,25 @@
                                         <constraint firstItem="ZCX-wP-3OO" firstAttribute="leading" secondItem="nFP-Ec-Hrb" secondAttribute="trailing" constant="8" id="IGr-qH-biY"/>
                                         <constraint firstItem="2ps-Xx-kTE" firstAttribute="width" secondItem="ZCX-wP-3OO" secondAttribute="width" id="IeY-Wx-7KO"/>
                                         <constraint firstItem="nFP-Ec-Hrb" firstAttribute="top" secondItem="A6z-A1-NS7" secondAttribute="topMargin" constant="-8" id="Nv0-IA-dyk"/>
+                                        <constraint firstAttribute="trailing" secondItem="7Ed-ce-pv9" secondAttribute="trailing" constant="8" id="aPX-kt-n8E"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="2ps-Xx-kTE" secondAttribute="trailing" constant="40" id="cuU-vg-HF2"/>
+                                        <constraint firstItem="7Ed-ce-pv9" firstAttribute="centerY" secondItem="A6z-A1-NS7" secondAttribute="centerY" constant="-0.25" id="dKW-I5-5hJ"/>
                                         <constraint firstItem="2ps-Xx-kTE" firstAttribute="top" secondItem="A6z-A1-NS7" secondAttribute="topMargin" id="eaz-Ka-UB2"/>
                                         <constraint firstItem="ZCX-wP-3OO" firstAttribute="top" secondItem="nFP-Ec-Hrb" secondAttribute="top" id="glj-Hr-ybW"/>
                                         <constraint firstItem="nFP-Ec-Hrb" firstAttribute="leading" secondItem="A6z-A1-NS7" secondAttribute="leadingMargin" id="m0f-qY-YRs"/>
                                         <constraint firstItem="2ps-Xx-kTE" firstAttribute="top" secondItem="ZCX-wP-3OO" secondAttribute="top" id="r2n-yx-YEw"/>
                                         <constraint firstItem="ZCX-wP-3OO" firstAttribute="height" secondItem="nFP-Ec-Hrb" secondAttribute="height" id="u9i-h3-QsD"/>
+                                        <constraint firstItem="7Ed-ce-pv9" firstAttribute="leading" secondItem="2ps-Xx-kTE" secondAttribute="trailing" constant="36" id="vhP-vS-K09"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
+                                            <exclude reference="cuU-vg-HF2"/>
                                             <exclude reference="eaz-Ka-UB2"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="addOrEditButton" destination="7Ed-ce-pv9" id="zMY-r9-SSd"/>
                                     <outlet property="eventName" destination="ZCX-wP-3OO" id="nHB-Ey-BKM"/>
                                     <outlet property="eventReminderTime" destination="2ps-Xx-kTE" id="P1b-aD-ecA"/>
                                     <outlet property="userImage" destination="nFP-Ec-Hrb" id="Y1U-Pg-gtT"/>
@@ -928,11 +956,13 @@
     </scenes>
     <resources>
         <image name="Add User Group Man Man-30-2" width="30" height="30"/>
+        <image name="Edit-30" width="30" height="30"/>
         <image name="Gender Neutral User Filled-100" width="100" height="100"/>
         <image name="Gender Neutral User Filled-30" width="30" height="30"/>
+        <image name="Plus-30" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Krs-ed-bAL"/>
-        <segue reference="d3Y-cH-wtx"/>
+        <segue reference="hr0-PB-IZo"/>
     </inferredMetricsTieBreakers>
 </document>

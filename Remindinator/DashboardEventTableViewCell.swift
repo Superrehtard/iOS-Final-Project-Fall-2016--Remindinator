@@ -15,6 +15,7 @@ class DashboardEventTableViewCell : PFTableViewCell {
     @IBOutlet weak var eventName: UILabel!
     @IBOutlet weak var eventReminderTime : UILabel!
     @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var addOrEditButton: UIButton!
     
     var user:PFUser!
     var objectId:String!

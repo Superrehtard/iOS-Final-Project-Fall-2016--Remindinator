@@ -98,6 +98,7 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
         cell.objectId = event.objectId
         cell.eventReminderTime.text = dateFormatter.stringFromDate(event.time)
         cell.user = event.user
+        cell.addOrEditButton.tag = indexPath.row
         
         return cell
     }
@@ -291,9 +292,13 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
             
             editEventVC.delegate = self
             
-            if let indexPath = self.tableView.indexPathForCell(sender as! DashboardEventTableViewCell) {
-                editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(indexPath)!)
-            }
+            let touchPoint = (sender as! UIButton).convertPoint(CGPointZero, toView: self.tableView)
+            
+            editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(self.tableView.indexPathForRowAtPoint(touchPoint)!)!)
+            
+//            if let indexPath = self.tableView.indexPathForCell(sender as! DashboardEventTableViewCell) {
+//                editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(indexPath)!)
+//            }
         }
     }
     
