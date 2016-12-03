@@ -12,6 +12,7 @@ import ParseUI
 
 class myEventsTableTableViewController: PFQueryTableViewController {
 
+    var eventsPopulated:[UserEvent] = []
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,6 +25,7 @@ class myEventsTableTableViewController: PFQueryTableViewController {
     
     override func viewWillAppear(animated: Bool) {
         loadObjects()
+        loadEvents()
     }
     
     override func queryForTable() -> PFQuery {
@@ -90,6 +92,51 @@ class myEventsTableTableViewController: PFQueryTableViewController {
         return false
     }
     
+    //This function is called everytime the view appears and it loads all the userevents into the eventsPopulated array.
+    func loadEvents() {
+        self.eventsPopulated.removeAll()
+        
+        let query = PFQuery(className: UserEvent.parseClassName())
+        
+        query.findObjectsInBackgroundWithBlock {
+            (objects: [PFObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                dispatch_async(dispatch_get_main_queue()) {
+                    if objects?.count > 0 {
+                        for object in objects! {
+                            self.eventsPopulated.append(object as! UserEvent)
+                        }
+                    }
+                    print("Successfully fetched all userEvents")
+                    print(self.eventsPopulated.count)
+                }
+            } else {
+                if let error = error {
+                    print("Something has gone terribly wrong! \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
+    
+    //Function that return the event for which the user has clicked on the edit button.
+    func eventSelectedToEdit(cell:UITableViewCell) -> UserEvent {
+        
+        var eventSelected:UserEvent!
+        print("event selected")
+        for event in self.eventsPopulated {
+             print("event populated")
+            if ((event.objectId?.compare((cell as! DashboardEventTableViewCell).objectId)) == .OrderedSame) {
+                eventSelected = event
+               
+            }
+        }
+        
+        return eventSelected
+    }
+
+    
     //Function that implements the deleting functionality to the tableviewcells.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! DashboardEventTableViewCell
@@ -135,14 +182,22 @@ class myEventsTableTableViewController: PFQueryTableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "Edit Event" {
+            let editEventVC = segue.destinationViewController as! AddEventTableViewController
+            
+            //editEventVC.delegate = self
+            if let indexPath = self.tableView.indexPathForCell(sender as! DashboardEventTableViewCell) {
+                editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(indexPath)!)
+            }
+            
+        }
+
     }
-    */
+    
 
 }
