@@ -17,13 +17,29 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTF: UITextField!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        assignbackground()
+//        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "Background.png")!)
         
         // if there is user logged in already navigate to the dashboard.
         if PFUser.currentUser() != nil {
                 self.performSegueWithIdentifier("LoginSuccessful", sender: self)
         }
         
+    }
+    
+    func assignbackground(){
+        let background = UIImage(named: "Background.png")
+        
+        var imageView : UIImageView!
+        imageView = UIImageView(frame: view.bounds)
+        imageView.contentMode =  UIViewContentMode.ScaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.image = background
+        imageView.center = view.center
+        view.addSubview(imageView)
+        self.view.sendSubviewToBack(imageView)
     }
     
     // Function is called when the user clicks on the sign In button. If the login is successful the user is navigated to the dashboard else an error message is displayed.

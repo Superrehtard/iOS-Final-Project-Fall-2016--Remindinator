@@ -14,7 +14,23 @@ class RegistrationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        assignbackground()
         self.navigationItem.title = "Sign Up"
+        
+        
+    }
+    
+    func assignbackground(){
+        let background = UIImage(named: "Background.png")
+        
+        var imageView : UIImageView!
+        imageView = UIImageView(frame: view.bounds)
+        imageView.contentMode =  UIViewContentMode.ScaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.image = background
+        imageView.center = view.center
+        view.addSubview(imageView)
+        self.view.sendSubviewToBack(imageView)
     }
     
     // Outlets for the Registration View Controller.

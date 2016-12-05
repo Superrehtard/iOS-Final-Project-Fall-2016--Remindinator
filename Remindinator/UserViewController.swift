@@ -66,6 +66,21 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         // Here we are setting the user full name to the current user's username.
         userFullNameLBL.text = PFUser.currentUser()?.username
+        
+        assignbackground()
+    }
+    
+    func assignbackground(){
+        let background = UIImage(named: "Background.png")
+        
+        var imageView : UIImageView!
+        imageView = UIImageView(frame: view.bounds)
+        imageView.contentMode =  UIViewContentMode.ScaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.image = background
+        imageView.center = view.center
+        view.addSubview(imageView)
+        self.view.sendSubviewToBack(imageView)
     }
 
     override func didReceiveMemoryWarning() {

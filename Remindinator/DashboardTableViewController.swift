@@ -116,6 +116,20 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        let alertController = UIAlertController(title: "Just an Alert", message: "What you wanna do boy?", preferredStyle: .ActionSheet)
+        
+        let callActionHandler = { (action:UIAlertAction!) -> Void in
+            let alertMessage = UIAlertController(title: "Service Unavailable", message: "Sorry, the call feature is not available yet. Please retry later.", preferredStyle: .Alert)
+            alertMessage.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            self.presentViewController(alertMessage, animated: true, completion: nil)
+        }
+        let callAction = UIAlertAction(title: "Mark as Completed", style: .Default, handler: callActionHandler)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        alertController.addAction(callAction)
+        alertController.addAction(cancelAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     //Function that implements the deleting functionality to the tableviewcells.
@@ -299,6 +313,16 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
 //            if let indexPath = self.tableView.indexPathForCell(sender as! DashboardEventTableViewCell) {
 //                editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(indexPath)!)
 //            }
+        }
+        
+        if segue.identifier == "MakeMyEvent" {
+            let addEventVC = segue.destinationViewController as! AddEventTableViewController
+            
+            addEventVC.delegate = self
+            
+            let touchPoint = (sender as! UIButton).convertPoint(CGPointZero, toView: self.tableView)
+            
+            addEventVC.existingEventToAdd = eventSelectedToEdit(tableView.cellForRowAtIndexPath(self.tableView.indexPathForRowAtPoint(touchPoint)!)!)
         }
     }
     

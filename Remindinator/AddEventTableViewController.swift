@@ -27,6 +27,9 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     // UserEvent that is to be edited.
     var eventToEdit:UserEvent!
     
+    // Existing UserEvent to add it to your Dashboard
+    var existingEventToAdd:UserEvent!
+    
     // Event Store
     var eventStore:EKEventStore!
     
@@ -65,7 +68,20 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
             self.isSharedToggleSwitch.on = event.isShared
             self.reminderToggleSwitch.on = event.reminderOn
             self.dueDate = event.time
+            self.sharedContacts = event.sharedToUsers
             self.updateEventDateLabel()
+            self.updateSharedContactsLabel()
+        }
+        
+        if let event = existingEventToAdd {
+            self.eventNameTextField.text = event.name
+            self.isPublicToggleSwitch.on = event.isPublic
+            self.isSharedToggleSwitch.on = event.isShared
+            self.reminderToggleSwitch.on = event.reminderOn
+            self.dueDate = event.time
+            self.updateEventDateLabel()
+            self.sharedContacts = event.sharedToUsers
+            self.updateSharedContactsLabel()
         }
     }
     
@@ -76,11 +92,11 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     // Function called when user clicks on Add. This functions adds an userEvent in the background.
     @IBAction func done(sender: AnyObject) {
         
-        if let event = eventToEdit {
+        if let event = self.eventToEdit {
             getUpdatedEvent(event)
             
             self.delegate?.addEventTableViewController(self, didFinishEditingEvent: event)
-        } else {
+        }else {
             // getting the date set from the date picker.
             if self.reminderToggleSwitch.on {
                 getEventDate()
@@ -134,8 +150,13 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
         event.isPublic = self.isPublicToggleSwitch.on
         event.isShared = self.isSharedToggleSwitch.on
         
+        if self.reminderToggleSwitch.on {
+            updateEventDateLabel()
+        }
+        
         if self.isSharedToggleSwitch.on {
             event.sharedToUsers = self.sharedContacts
+            self.updateSharedContactsLabel()
         } else {
             event.sharedToUsers = []
         }
@@ -159,6 +180,10 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
         formatter.dateStyle = .MediumStyle
         formatter.timeStyle = .ShortStyle
         eventDateLabel.text = formatter.stringFromDate(dueDate)
+    }
+    
+    func updateSharedContactsLabel() {
+        self.contactsAddedLabel.text = "\(self.sharedContacts.count) People Added."
     }
     
     // Function called whenever the isShared switch is toggled.
