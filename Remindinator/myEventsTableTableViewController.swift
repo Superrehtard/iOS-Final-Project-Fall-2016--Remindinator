@@ -9,12 +9,20 @@
 import UIKit
 import Parse
 import ParseUI
+import EventKit
 
-class myEventsTableTableViewController: PFQueryTableViewController {
+class myEventsTableTableViewController: PFQueryTableViewController, AddEventTableViewControllerDelegate {
 
     var eventsPopulated:[UserEvent] = []
+    var eventStore:EKEventStore!
+    weak var delegate:AddEventTableViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        self.eventStore = appDelegate.eventStore
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -32,6 +40,7 @@ class myEventsTableTableViewController: PFQueryTableViewController {
         let query = PFQuery(className: UserEvent.parseClassName())
         query.includeKey("user")
         query.whereKey("user", equalTo: PFUser.currentUser()!)
+        query.orderByDescending("time")
         return query
     }
 
@@ -181,7 +190,73 @@ class myEventsTableTableViewController: PFQueryTableViewController {
         return true
     }
     */
-
+    
+    func addEventTableViewControllerDidCancel(controller: AddEventTableViewController) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func addEventTableViewController(controller: AddEventTableViewController, didFinishEditingEvent event: UserEvent) {
+        
+        let query = PFQuery(className: UserEvent.parseClassName())
+        
+        query.getObjectInBackgroundWithId(event.objectId!) {
+            (userEvent: PFObject?, error: NSError?) -> Void in
+            
+            if error == nil {
+                dispatch_async(dispatch_get_main_queue()) {
+                    userEvent!["name"] = event.name
+                    userEvent!["location"] = event.location
+                    userEvent!["notes"] = event.notes
+                    userEvent!["user"] = event.user
+                    userEvent!["reminderOn"] = event.reminderOn
+                    userEvent!["time"] = event.time
+                    userEvent!["sharedToUsers"] = event.sharedToUsers
+                    userEvent!["isPublic"] = event.isPublic
+                    userEvent!["isShared"] = event.isShared
+                    userEvent!["completed"] = false
+                    
+                    userEvent?.saveInBackground()
+                    
+                    if event.calenderItemIdentifier != "" {
+                        
+                        
+                        let reminderToEdit = self.eventStore.calendarItemWithIdentifier(event.calenderItemIdentifier) as! EKReminder
+                        
+                        reminderToEdit.title = event.name
+                        reminderToEdit.completed = false
+                        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                        let dueDateComponents = appDelegate.dateComponentFromNSDate(event.time)
+                        reminderToEdit.dueDateComponents = dueDateComponents
+                        reminderToEdit.alarms?.first?.absoluteDate = NSCalendar.currentCalendar().dateFromComponents(dueDateComponents)
+                        reminderToEdit.calendar = self.eventStore.defaultCalendarForNewReminders()
+                        do {
+                            try self.eventStore.saveReminder(reminderToEdit, commit: true)
+                            let alert:UIAlertController = UIAlertController(title: "Success", message: "Event Updated succesfully!", preferredStyle: .Alert)
+                            let defaultAction:UIAlertAction =  UIAlertAction(title: "OK", style: .Default, handler: { (action:UIAlertAction!) -> Void in
+                                
+                                self.navigationController?.popViewControllerAnimated(true)
+                            })
+                            alert.addAction(defaultAction)
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }catch{
+                            self.displayAlertWithTitle("Error!", message: "Error updating reminder :\(error)")
+                            print("Error creating and saving new reminder : \(error)")
+                        }
+                    }
+                }
+            } else {
+                if let error = error {
+                    print("Something has gone terribly wrong! \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    func addEventTableViewController(controller: AddEventTableViewController, didFinishAddingEvent event: UserEvent) {
+        return
+    }
+    
+    
     
     // MARK: - Navigation
 
@@ -190,6 +265,8 @@ class myEventsTableTableViewController: PFQueryTableViewController {
         if segue.identifier == "Edit Event" {
             let editEventVC = segue.destinationViewController as! AddEventTableViewController
             
+            editEventVC.delegate = self
+            
             //editEventVC.delegate = self
             if let indexPath = self.tableView.indexPathForCell(sender as! DashboardEventTableViewCell) {
                 editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(indexPath)!)
@@ -197,6 +274,14 @@ class myEventsTableTableViewController: PFQueryTableViewController {
             
         }
 
+    }
+    
+    func displayAlertWithTitle(title:String, message:String){
+        let alert:UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let defaultAction:UIAlertAction =  UIAlertAction(title: "OK", style: .Default, handler: nil)
+        alert.addAction(defaultAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+        
     }
     
 

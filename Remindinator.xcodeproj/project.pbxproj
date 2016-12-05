@@ -23,6 +23,7 @@
 		5EC9EB4C1DBFEA53004BDD6F /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EC9EB4A1DBFEA53004BDD6F /* Parse.framework */; };
 		5EC9EB4E1DBFEE12004BDD6F /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC9EB4D1DBFEE12004BDD6F /* RegistrationViewController.swift */; };
 		5EC9EB501DBFFE7A004BDD6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5EC9EB4F1DBFFE7A004BDD6F /* Main.storyboard */; };
+		7238E6831DF554FC0006E60C /* UpcomingEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7238E6821DF554FC0006E60C /* UpcomingEventsTableViewController.swift */; };
 		726542F31DCFF2DE001680D9 /* EventNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726542F21DCFF2DE001680D9 /* EventNameTableViewCell.swift */; };
 		726543151DD00699001680D9 /* AddEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726543141DD00699001680D9 /* AddEventTableViewController.swift */; };
 		726543171DD03786001680D9 /* DashboardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726543161DD03786001680D9 /* DashboardTableViewController.swift */; };
@@ -77,6 +78,7 @@
 		5EC9EB4A1DBFEA53004BDD6F /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		5EC9EB4D1DBFEE12004BDD6F /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		5EC9EB4F1DBFFE7A004BDD6F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		7238E6821DF554FC0006E60C /* UpcomingEventsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpcomingEventsTableViewController.swift; sourceTree = "<group>"; };
 		726542F21DCFF2DE001680D9 /* EventNameTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventNameTableViewCell.swift; sourceTree = "<group>"; };
 		726543141DD00699001680D9 /* AddEventTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEventTableViewController.swift; sourceTree = "<group>"; };
 		726543161DD03786001680D9 /* DashboardTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardTableViewController.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				726543141DD00699001680D9 /* AddEventTableViewController.swift */,
 				726543161DD03786001680D9 /* DashboardTableViewController.swift */,
 				72A3BFBD1DD9A91000B039E9 /* ContactsTableViewController.swift */,
+				7238E6821DF554FC0006E60C /* UpcomingEventsTableViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 			files = (
 				72C7C7BF1DEEC6BD00A7967D /* CustomImage.swift in Sources */,
 				72A3BFBA1DD9A89600B039E9 /* ContactTableViewCell.swift in Sources */,
+				7238E6831DF554FC0006E60C /* UpcomingEventsTableViewController.swift in Sources */,
 				72F8678B1DBD95C800AEB80A /* UserViewController.swift in Sources */,
 				726542F31DCFF2DE001680D9 /* EventNameTableViewCell.swift in Sources */,
 				B22D4E401DBD805300AF0297 /* LoginViewController.swift in Sources */,

@@ -19,6 +19,7 @@ class UserEvent : PFObject {
     @NSManaged var isPublic:Bool
     @NSManaged var isShared:Bool
     @NSManaged var location:String?
+    @NSManaged var notes:String?
     @NSManaged var user:PFUser
     @NSManaged var sharedToUsers:[PFUser]
     @NSManaged var calenderItemIdentifier:String
@@ -50,6 +51,18 @@ class UserEvent : PFObject {
         return query
     }
     
+    class func queryForUpcomingEvents() -> PFQuery? {
+        let now:NSDate = NSDate()
+        
+        let query = PFQuery(className: UserEvent.parseClassName())
+        query.whereKey("time", lessThanOrEqualTo: now)
+        
+        query.includeKey("user")
+        query.orderByDescending("time")
+        
+        return query
+    }
+    
     class func queryForDashboardEvents() -> PFQuery? {
         let publicEvents = PFQuery(className:UserEvent.parseClassName())
         publicEvents.whereKey("isPublic", equalTo:true)
@@ -60,7 +73,7 @@ class UserEvent : PFObject {
         let query = PFQuery.orQueryWithSubqueries([publicEvents, sharedEvents])
         
         query.includeKey("user")
-        query.orderByAscending("createdAt")
+        query.orderByDescending("time")
         
         return query
     }
@@ -70,13 +83,14 @@ class UserEvent : PFObject {
     }
     
     // Initializer for UserEvent Class
-    init(name:String, reminderOn:Bool, time:NSDate, location:String?, user:PFUser) {
+    init(name:String, reminderOn:Bool, time:NSDate, location:String?, user:PFUser, notes:String?) {
         super.init()
         self.name = name
         self.location = location
         self.user = user
         self.reminderOn = reminderOn
         self.time = time
+        self.notes = notes
         self.sharedToUsers = []
         self.isPublic = false
         self.isShared = false

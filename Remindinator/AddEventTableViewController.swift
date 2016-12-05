@@ -43,6 +43,8 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var doneBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var eventDatePicker: UIDatePicker!
     @IBOutlet weak var eventDatePickerCell: UITableViewCell!
+    @IBOutlet weak var locationTextField: UITextField!
+    @IBOutlet weak var notesTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +62,8 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
         
         eventNameTextField.becomeFirstResponder()
         
+        updateEventDateLabel()
+        
         if let event = eventToEdit {
             self.title = "Edit Event"
             
@@ -69,6 +73,7 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
             self.reminderToggleSwitch.on = event.reminderOn
             self.dueDate = event.time
             self.sharedContacts = event.sharedToUsers
+            self.locationTextField.text = event.location
             self.updateEventDateLabel()
             self.updateSharedContactsLabel()
         }
@@ -79,6 +84,7 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
             self.isSharedToggleSwitch.on = event.isShared
             self.reminderToggleSwitch.on = event.reminderOn
             self.dueDate = event.time
+            self.locationTextField.text = event.location
             self.updateEventDateLabel()
             self.sharedContacts = event.sharedToUsers
             self.updateSharedContactsLabel()
@@ -103,7 +109,7 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
             }
             
             // creating the UserEvent based on the user input.
-            let event = UserEvent(name: eventNameTextField.text!,reminderOn:self.reminderToggleSwitch.on, time: self.dueDate, location: "Some Location", user: PFUser.currentUser()!)
+            let event = UserEvent(name: eventNameTextField.text!,reminderOn:self.reminderToggleSwitch.on, time: self.dueDate, location: self.locationTextField?.text!, user: PFUser.currentUser()!, notes: self.notesTextView?.text!)
             event.isPublic = self.isPublicToggleSwitch.on
             event.isShared = self.isSharedToggleSwitch.on
             
@@ -112,28 +118,32 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
                 event.sharedToUsers = self.sharedContacts
             }
             
-            let reminder = EKReminder(eventStore: self.eventStore)
-            reminder.title = eventNameTextField.text!
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            
-            reminder.calendar = self.eventStore.defaultCalendarForNewReminders()
-            reminder.dueDateComponents = appDelegate.dateComponentFromNSDate(self.dueDate)
-            
-            let alarm = EKAlarm(absoluteDate: self.dueDate)
-            
-            reminder.addAlarm(alarm)
-            
-            // 2
-            do {
-                try self.eventStore.saveReminder(reminder, commit: true)
-                dismissViewControllerAnimated(true, completion: nil)
-            }catch{
-                print("Error creating and saving new reminder : \(error)")
+            if self.reminderToggleSwitch.on {
+                let reminder = EKReminder(eventStore: self.eventStore)
+                reminder.title = eventNameTextField.text!
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                
+                reminder.calendar = self.eventStore.defaultCalendarForNewReminders()
+                reminder.dueDateComponents = appDelegate.dateComponentFromNSDate(self.dueDate)
+                
+                let alarm = EKAlarm(absoluteDate: self.dueDate)
+                
+                reminder.addAlarm(alarm)
+                
+                // 2
+                do {
+                    try self.eventStore.saveReminder(reminder, commit: true)
+//                    dismissViewControllerAnimated(true, completion: nil)
+                }catch{
+                    print("Error creating and saving new reminder : \(error)")
+                }
+                
+                event.calenderItemIdentifier = reminder.calendarItemIdentifier
+                
+                print(event.calenderItemIdentifier)
             }
             
-            event.calenderItemIdentifier = reminder.calendarItemIdentifier
             
-            print(event.calenderItemIdentifier)
             
             // Save the newly created userEvent.
             self.delegate?.addEventTableViewController(self, didFinishAddingEvent: event)
@@ -149,6 +159,8 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
         event.time = self.dueDate
         event.isPublic = self.isPublicToggleSwitch.on
         event.isShared = self.isSharedToggleSwitch.on
+        event.location = self.locationTextField?.text!
+        event.notes = self.notesTextView?.text!
         
         if self.reminderToggleSwitch.on {
             updateEventDateLabel()
@@ -294,14 +306,14 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
                 return 0.0
             }
         }
-        
-        if indexPath.section == 2 && indexPath.row == 1 {
-            if reminderToggleSwitch.on {
-                return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
-            } else {
-                return 0.0
-            }
-        }
+//        
+//        if indexPath.section == 2 && indexPath.row == 1 {
+//            if reminderToggleSwitch.on {
+//                return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+//            } else {
+//                return 0.0
+//            }
+//        }
         
         if indexPath.section == 2 && indexPath.row == 2 {
             return 217

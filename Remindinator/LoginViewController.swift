@@ -25,12 +25,13 @@ class LoginViewController: UIViewController {
         // if there is user logged in already navigate to the dashboard.
         if PFUser.currentUser() != nil {
                 self.performSegueWithIdentifier("LoginSuccessful", sender: self)
+//            self.performSegueWithIdentifier("LoginToDashboard", sender: self)
         }
         
     }
     
     func assignbackground(){
-        let background = UIImage(named: "Background.png")
+        let background = UIImage(named: "Background1.png")
         
         var imageView : UIImageView!
         imageView = UIImageView(frame: view.bounds)

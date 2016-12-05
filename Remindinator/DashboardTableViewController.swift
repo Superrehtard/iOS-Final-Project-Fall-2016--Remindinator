@@ -63,11 +63,15 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
             cell = tableView.dequeueReusableCellWithIdentifier("PublicEventCell", forIndexPath: indexPath) as! DashboardEventTableViewCell
         }
         
+        cell.userImage.layer.cornerRadius = cell.userImage.frame.size.width / 2
+        cell.userImage.clipsToBounds = true
+        
+        cell.userImage.layer.borderWidth = 3
+        cell.userImage.layer.borderColor = UIColor.darkTextColor().CGColor
+        
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
-        
-        print(PFUser.currentUser()?.username)
         
         if let userImageFile = event.user["image"] as? PFFile {
             userImageFile.getDataInBackgroundWithBlock {
@@ -100,6 +104,14 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
         cell.user = event.user
         cell.addOrEditButton.tag = indexPath.row
         
+        if event.time.compare(NSDate()) == .OrderedDescending {
+            if event.completed {
+                cell.eventReminderTime.textColor = UIColor.greenColor().colorWithAlphaComponent(0.75)
+            }
+        } else {
+            cell.eventReminderTime.textColor = UIColor.redColor()
+        }
+        
         return cell
     }
     
@@ -117,19 +129,63 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        let alertController = UIAlertController(title: "Just an Alert", message: "What you wanna do boy?", preferredStyle: .ActionSheet)
+        let event = self.objectAtIndexPath(indexPath) as! UserEvent
         
-        let callActionHandler = { (action:UIAlertAction!) -> Void in
-            let alertMessage = UIAlertController(title: "Service Unavailable", message: "Sorry, the call feature is not available yet. Please retry later.", preferredStyle: .Alert)
-            alertMessage.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            self.presentViewController(alertMessage, animated: true, completion: nil)
+        if event.user.objectId?.compare((PFUser.currentUser()?.objectId)!) == .OrderedSame {
+            let alertController = UIAlertController(title: event.name, message: .None, preferredStyle: .ActionSheet)
+            
+            let callActionHandler = { (action:UIAlertAction!) -> Void in
+                
+                if event.completed == true {
+                    let alertMessage = UIAlertController(title: "Warning", message: "Event already completed.", preferredStyle: .Alert)
+                    alertMessage.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                    self.presentViewController(alertMessage, animated: true, completion: nil)
+                } else {
+                    event.completed = true
+                    
+                    event.saveInBackgroundWithBlock{ succeeded, error in
+                        if succeeded {
+                            // when the event is successfully saved.
+                            if event.calenderItemIdentifier != "" {
+                                let reminderToEdit = self.eventStore.calendarItemWithIdentifier(event.calenderItemIdentifier) as! EKReminder
+                                
+                                reminderToEdit.completed = true
+                                
+                                reminderToEdit.alarms?.removeAll()
+                                reminderToEdit.calendar = self.eventStore.defaultCalendarForNewReminders()
+                                do {
+                                    try self.eventStore.saveReminder(reminderToEdit, commit: true)
+                                    let alert:UIAlertController = UIAlertController(title: "Success", message: "Event Updated succesfully!", preferredStyle: .Alert)
+                                    let defaultAction:UIAlertAction =  UIAlertAction(title: "OK", style: .Default, handler: nil)
+                                    alert.addAction(defaultAction)
+                                    self.presentViewController(alert, animated: true, completion: nil)
+                                }catch{
+                                    self.displayAlertWithTitle("Error!", message: "Error updating reminder :\(error)")
+                                    print("Error creating and saving new reminder : \(error)")
+                                }
+                            } else {
+                                let alertMessage = UIAlertController(title: "Success", message: "Event successfully marked as complete.", preferredStyle: .Alert)
+                                alertMessage.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                                self.presentViewController(alertMessage, animated: true, completion: nil)
+                            }
+                        } else {
+                            // when the event is not stored successfully.
+                            if (error?.userInfo["error"] as? String) != nil {
+                                let alertMessage = UIAlertController(title: "Failed!", message: error?.localizedDescription, preferredStyle: .Alert)
+                                alertMessage.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                                self.presentViewController(alertMessage, animated: true, completion: nil)
+                            }
+                        }
+                    }
+                }
+            }
+            let callAction = UIAlertAction(title: "Mark as Completed", style: .Default, handler: callActionHandler)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+            alertController.addAction(callAction)
+            alertController.addAction(cancelAction)
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
         }
-        let callAction = UIAlertAction(title: "Mark as Completed", style: .Default, handler: callActionHandler)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        alertController.addAction(callAction)
-        alertController.addAction(cancelAction)
-        
-        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     //Function that implements the deleting functionality to the tableviewcells.
@@ -166,7 +222,7 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
                                 print("Successfully fetched UserEvent and Deleted the Same!")
                             }
                             
-//                            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+                            //                            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
                         }
                     }
                 }
@@ -185,9 +241,9 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
     func loadEvents() {
         self.eventsPopulated.removeAll()
         
-        let query = PFQuery(className: UserEvent.parseClassName())
+        let query = UserEvent.query()
         
-        query.findObjectsInBackgroundWithBlock {
+        query!.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
             
             if error == nil {
@@ -197,6 +253,7 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
                             self.eventsPopulated.append(object as! UserEvent)
                         }
                     }
+                    print(objects?.count)
                     print("Successfully fetched all userEvents")
                 }
             } else {
@@ -251,18 +308,18 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
                 dispatch_async(dispatch_get_main_queue()) {
                     userEvent!["name"] = event.name
                     userEvent!["location"] = event.location
+                    userEvent!["notes"] = event.notes
                     userEvent!["user"] = event.user
                     userEvent!["reminderOn"] = event.reminderOn
                     userEvent!["time"] = event.time
                     userEvent!["sharedToUsers"] = event.sharedToUsers
                     userEvent!["isPublic"] = event.isPublic
                     userEvent!["isShared"] = event.isShared
+                    userEvent!["completed"] = false
                     
                     userEvent?.saveInBackground()
                     
-                    print("Successfully updated the userevent!!")
-                    
-                    if event.calenderItemIdentifier != "" {
+                    if event.calenderItemIdentifier != "" && event.reminderOn {
                         
                         
                         let reminderToEdit = self.eventStore.calendarItemWithIdentifier(event.calenderItemIdentifier) as! EKReminder
@@ -276,14 +333,61 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
                         reminderToEdit.calendar = self.eventStore.defaultCalendarForNewReminders()
                         do {
                             try self.eventStore.saveReminder(reminderToEdit, commit: true)
-                            self.navigationController?.popViewControllerAnimated(true)
+                            let alert:UIAlertController = UIAlertController(title: "Success", message: "Event Updated succesfully!", preferredStyle: .Alert)
+                            let defaultAction:UIAlertAction =  UIAlertAction(title: "OK", style: .Default, handler: { (action:UIAlertAction!) -> Void in
+                                
+                                self.navigationController?.popViewControllerAnimated(true)
+                            })
+                            alert.addAction(defaultAction)
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }catch{
+                            self.displayAlertWithTitle("Error!", message: "Error updating reminder :\(error)")
+                            print("Error creating and saving new reminder : \(error)")
+                        }
+                    } else if event.calenderItemIdentifier != "" && !event.reminderOn {
+                        let reminderToDelete = self.eventStore.calendarItemWithIdentifier(event.calenderItemIdentifier) as! EKReminder
+                        
+                        
+                        do{
+                            try self.eventStore.removeReminder(reminderToDelete, commit: true)
+                            let alert:UIAlertController = UIAlertController(title: "Success", message: "Event Updated succesfully!", preferredStyle: .Alert)
+                            let defaultAction:UIAlertAction =  UIAlertAction(title: "OK", style: .Default, handler: { (action:UIAlertAction!) -> Void in
+                                
+                                self.navigationController?.popViewControllerAnimated(true)
+                            })
+                            alert.addAction(defaultAction)
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }catch{
+                            self.displayAlertWithTitle("Error!", message: "Error updating reminder :\(error)")
+                            print("Error deleting reminder : \(error)")
+                        }
+                        
+                    } else if event.calenderItemIdentifier == "" && event.reminderOn {
+                        let reminder = EKReminder(eventStore: self.eventStore)
+                        reminder.title = event.name
+                        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                        
+                        reminder.calendar = self.eventStore.defaultCalendarForNewReminders()
+                        reminder.dueDateComponents = appDelegate.dateComponentFromNSDate(event.time)
+                        
+                        let alarm = EKAlarm(absoluteDate: event.time)
+                        
+                        reminder.addAlarm(alarm)
+                        
+                        // 2
+                        do {
+                            try self.eventStore.saveReminder(reminder, commit: true)
+//                            self.dismissViewControllerAnimated(true, completion: nil)
                         }catch{
                             print("Error creating and saving new reminder : \(error)")
                         }
                         
+                        userEvent!["calenderItemIdentifier"] = reminder.calendarItemIdentifier
+                        userEvent?.saveInBackground()
+                        self.navigationController?.popViewControllerAnimated(true)
+                    } else {
+                        self.navigationController?.popViewControllerAnimated(true)
                     }
-                    
-//                    self.navigationController?.popViewControllerAnimated(true)
                 }
             } else {
                 if let error = error {
@@ -310,9 +414,9 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
             
             editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(self.tableView.indexPathForRowAtPoint(touchPoint)!)!)
             
-//            if let indexPath = self.tableView.indexPathForCell(sender as! DashboardEventTableViewCell) {
-//                editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(indexPath)!)
-//            }
+            //            if let indexPath = self.tableView.indexPathForCell(sender as! DashboardEventTableViewCell) {
+            //                editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(indexPath)!)
+            //            }
         }
         
         if segue.identifier == "MakeMyEvent" {
@@ -324,6 +428,14 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
             
             addEventVC.existingEventToAdd = eventSelectedToEdit(tableView.cellForRowAtIndexPath(self.tableView.indexPathForRowAtPoint(touchPoint)!)!)
         }
+    }
+    
+    func displayAlertWithTitle(title:String, message:String){
+        let alert:UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let defaultAction:UIAlertAction =  UIAlertAction(title: "OK", style: .Default, handler: nil)
+        alert.addAction(defaultAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+        
     }
     
 }

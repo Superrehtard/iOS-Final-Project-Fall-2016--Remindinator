@@ -21,7 +21,7 @@ class RegistrationViewController: UIViewController {
     }
     
     func assignbackground(){
-        let background = UIImage(named: "Background.png")
+        let background = UIImage(named: "Background1.png")
         
         var imageView : UIImageView!
         imageView = UIImageView(frame: view.bounds)
@@ -34,6 +34,8 @@ class RegistrationViewController: UIViewController {
     }
     
     // Outlets for the Registration View Controller.
+    @IBOutlet weak var firstNameTF: UITextField!
+    @IBOutlet weak var lastNameTF: UITextField!
     @IBOutlet weak var userNameTF: UITextField!
     @IBOutlet weak var emailOrUserNameTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
@@ -50,6 +52,8 @@ class RegistrationViewController: UIViewController {
         // TO DO:
         // Implement validations (password matching etc..,)
         
+        
+        
         user.username = userNameTF.text!
         user.password = passwordTF.text!
         user.email = emailOrUserNameTF.text!
@@ -59,24 +63,44 @@ class RegistrationViewController: UIViewController {
         let imageFile = PFFile(name: userNameTF.text!, data: imageData!)
         
         user["image"] = imageFile
-        user.saveInBackground()
         
-        user.signUpInBackgroundWithBlock {
-            succeded, error in
-            if succeded {
-                
-                self.performSegueWithIdentifier("SignUpSuccessful", sender: self)
-            } else {
-                self.displayAlertWithTitle("Something gone awfully wrong!", message: "\(error!.localizedDescription)")
-                
-                let emailVerified = user["emailVerified"]
-                if emailVerified != nil && (emailVerified as! Bool) == true {
-                    // Everything is fine
+        user["firstName"] = firstNameTF?.text!
+        user["lastName"] = lastNameTF?.text!
+        
+        var validNameEntered:Bool = false
+        
+        if firstNameTF?.text != "" && lastNameTF?.text != "" {
+            validNameEntered = true
+        }
+        
+        if passwordTF.text == confirmPasswordTF.text && validNameEntered {
+            
+            user.signUpInBackgroundWithBlock {
+                succeded, error in
+                if succeded {
+//                    user.saveInBackground()
+                    print(PFUser.currentUser()?.username)
+                    self.performSegueWithIdentifier("SignUpSuccessful", sender: self)
+                    
                 } else {
-                    // The email has not been verified, so logout the user
-                    PFUser.logOut()
+                    self.displayAlertWithTitle("Whoops!", message: "\(error!.localizedDescription)")
+                    
+                    let emailVerified = user["emailVerified"]
+                    if emailVerified != nil && (emailVerified as! Bool) == true {
+                        // Everything is fine
+                    } else {
+                        // The email has not been verified, so logout the user
+                        PFUser.logOut()
+                    }
                 }
             }
+        }else{
+            if passwordTF.text == confirmPasswordTF.text {
+                displayAlertWithTitle("No Name?", message: "Please provide both first name and last name for the user")
+            } else {
+                displayAlertWithTitle("Error Signing up!", message: "Passwords did not match")
+            }
+            
         }
     }
     

@@ -71,7 +71,7 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     func assignbackground(){
-        let background = UIImage(named: "Background.png")
+        let background = UIImage(named: "Background1.png")
         
         var imageView : UIImageView!
         imageView = UIImageView(frame: view.bounds)
