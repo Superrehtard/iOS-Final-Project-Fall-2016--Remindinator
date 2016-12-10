@@ -29,6 +29,8 @@
 		726543171DD03786001680D9 /* DashboardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726543161DD03786001680D9 /* DashboardTableViewController.swift */; };
 		7265431A1DD03B33001680D9 /* DashboardEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726543191DD03B33001680D9 /* DashboardEventTableViewCell.swift */; };
 		727163B71DFB6173000B953F /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727163B61DFB6173000B953F /* Utilities.swift */; };
+		727163B91DFB87AB000B953F /* AddLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727163B81DFB87AB000B953F /* AddLocationViewController.swift */; };
+		727163BB1DFB8D19000B953F /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727163BA1DFB8D19000B953F /* LocationSearchTable.swift */; };
 		7274ED7E1DCE8835005B2560 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7274ED7D1DCE8834005B2560 /* ParseUI.framework */; };
 		72A3BFBA1DD9A89600B039E9 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A3BFB91DD9A89600B039E9 /* ContactTableViewCell.swift */; };
 		72A3BFBE1DD9A91000B039E9 /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A3BFBD1DD9A91000B039E9 /* ContactsTableViewController.swift */; };
@@ -85,6 +87,8 @@
 		726543161DD03786001680D9 /* DashboardTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardTableViewController.swift; sourceTree = "<group>"; };
 		726543191DD03B33001680D9 /* DashboardEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardEventTableViewCell.swift; sourceTree = "<group>"; };
 		727163B61DFB6173000B953F /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		727163B81DFB87AB000B953F /* AddLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
+		727163BA1DFB8D19000B953F /* LocationSearchTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
 		7274ED7D1DCE8834005B2560 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		72824E6D1DC1812000E2B626 /* Remindinator-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Remindinator-Bridging-Header.h"; sourceTree = "<group>"; };
 		72A3BFB91DD9A89600B039E9 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
@@ -150,6 +154,7 @@
 		726543181DD03AD7001680D9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				726542F21DCFF2DE001680D9 /* EventNameTableViewCell.swift */,
 				726543191DD03B33001680D9 /* DashboardEventTableViewCell.swift */,
 				72A3BFB91DD9A89600B039E9 /* ContactTableViewCell.swift */,
 			);
@@ -189,6 +194,8 @@
 				72A3BFBD1DD9A91000B039E9 /* ContactsTableViewController.swift */,
 				7238E6821DF554FC0006E60C /* UpcomingEventsTableViewController.swift */,
 				727163B61DFB6173000B953F /* Utilities.swift */,
+				727163B81DFB87AB000B953F /* AddLocationViewController.swift */,
+				727163BA1DFB8D19000B953F /* LocationSearchTable.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -236,7 +243,6 @@
 				B22D4E441DBD805300AF0297 /* Remindinator.xcdatamodeld */,
 				B22D4E6E1DBD888F00AF0297 /* Launch Screen.storyboard */,
 				72824E6D1DC1812000E2B626 /* Remindinator-Bridging-Header.h */,
-				726542F21DCFF2DE001680D9 /* EventNameTableViewCell.swift */,
 				72DBA8EF1DD1C5F200CB2642 /* Images.xcassets */,
 			);
 			path = Remindinator;
@@ -396,6 +402,7 @@
 				72C7C7BF1DEEC6BD00A7967D /* CustomImage.swift in Sources */,
 				72A3BFBA1DD9A89600B039E9 /* ContactTableViewCell.swift in Sources */,
 				7238E6831DF554FC0006E60C /* UpcomingEventsTableViewController.swift in Sources */,
+				727163BB1DFB8D19000B953F /* LocationSearchTable.swift in Sources */,
 				72F8678B1DBD95C800AEB80A /* UserViewController.swift in Sources */,
 				726542F31DCFF2DE001680D9 /* EventNameTableViewCell.swift in Sources */,
 				B22D4E401DBD805300AF0297 /* LoginViewController.swift in Sources */,
@@ -407,6 +414,7 @@
 				726543151DD00699001680D9 /* AddEventTableViewController.swift in Sources */,
 				5EC9EB4E1DBFEE12004BDD6F /* RegistrationViewController.swift in Sources */,
 				B22D4E3E1DBD805300AF0297 /* AppDelegate.swift in Sources */,
+				727163B91DFB87AB000B953F /* AddLocationViewController.swift in Sources */,
 				72A3BFBE1DD9A91000B039E9 /* ContactsTableViewController.swift in Sources */,
 				B22D4E461DBD805300AF0297 /* Remindinator.xcdatamodeld in Sources */,
 			);

@@ -9,6 +9,7 @@
 import UIKit
 import Parse
 import EventKit
+import MapKit
 
 protocol AddEventTableViewControllerDelegate : class {
     func addEventTableViewControllerDidCancel(controller: AddEventTableViewController)
@@ -23,6 +24,8 @@ class AddEventTableViewController : UITableViewController {
     var dueDate = NSDate()
     var sharedContacts:[PFUser] = []
     weak var delegate:AddEventTableViewControllerDelegate?
+    
+    var selectedMapItem:MKPlacemark!
     
     // UserEvent that is to be edited.
     var eventToEdit:UserEvent!
@@ -43,7 +46,7 @@ class AddEventTableViewController : UITableViewController {
     @IBOutlet weak var doneBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var eventDatePicker: UIDatePicker!
     @IBOutlet weak var eventDatePickerCell: UITableViewCell!
-    @IBOutlet weak var locationTextField: UITextField!
+    @IBOutlet weak var eventLocationLabel: UILabel!
     @IBOutlet weak var notesTextView: UITextView!
     
     override func viewDidLoad() {
@@ -74,7 +77,7 @@ class AddEventTableViewController : UITableViewController {
             self.notesTextView.text = event.eventNotes
             self.dueDate = event.eventDueDate
             self.sharedContacts = event.sharedToUsers
-            self.locationTextField.text = event.eventLocation
+            self.eventLocationLabel.text = event.eventLocation
             self.updateEventDateLabel()
             self.updateSharedContactsLabel()
         }
@@ -86,7 +89,7 @@ class AddEventTableViewController : UITableViewController {
             self.reminderToggleSwitch.on = event.isReminderOn
             self.notesTextView.text = event.eventNotes
             self.dueDate = event.eventDueDate
-            self.locationTextField.text = event.eventLocation
+            self.eventLocationLabel.text = event.eventLocation
             self.updateEventDateLabel()
             self.sharedContacts = event.sharedToUsers
             self.updateSharedContactsLabel()
@@ -94,7 +97,9 @@ class AddEventTableViewController : UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+        if self.selectedMapItem != nil {
+            self.eventLocationLabel.text = self.selectedMapItem.title
+        }
     }
     
     // Function called when user clicks on Add. This functions adds an userEvent in the background.
@@ -111,7 +116,7 @@ class AddEventTableViewController : UITableViewController {
             }
             
             // creating the UserEvent based on the user input.
-            let event = UserEvent(eventName: eventNameTextField.text!,isReminderOn:self.reminderToggleSwitch.on, eventDueDate: self.dueDate, eventLocation: self.locationTextField?.text!, user: PFUser.currentUser()!, eventNotes: self.notesTextView?.text!)
+            let event = UserEvent(eventName: eventNameTextField.text!,isReminderOn:self.reminderToggleSwitch.on, eventDueDate: self.dueDate, eventLocation: self.eventLocationLabel?.text!, user: PFUser.currentUser()!, eventNotes: self.notesTextView?.text!)
             event.isPublic = self.isPublicToggleSwitch.on
             event.isShared = self.isSharedToggleSwitch.on
             
@@ -158,7 +163,7 @@ class AddEventTableViewController : UITableViewController {
         event.eventDueDate = self.dueDate
         event.isPublic = self.isPublicToggleSwitch.on
         event.isShared = self.isSharedToggleSwitch.on
-        event.eventLocation = self.locationTextField?.text!
+        event.eventLocation = self.eventLocationLabel?.text!
         event.eventNotes = self.notesTextView?.text!
         
         if self.reminderToggleSwitch.on {
@@ -276,6 +281,12 @@ class AddEventTableViewController : UITableViewController {
             
             contactsTV.contacts = self.sharedContacts
         }
+        
+        if segue.identifier == "addLocation" {
+            let addLocationVC = segue.destinationViewController as! AddLocationViewController
+            
+            addLocationVC.delegate = self
+        }
     }
 }
 
@@ -316,7 +327,7 @@ extension AddEventTableViewController {
     }
     
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        if indexPath.section == 2 && indexPath.row == 1 {
+        if indexPath.section == 2 && indexPath.row == 1 || indexPath.section == 3 && indexPath.row == 0 {
             return indexPath
         } else {
             return nil
@@ -359,6 +370,22 @@ extension AddEventTableViewController {
     // Default height for all the tableview cells.
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 44.0
+    }
+}
+
+extension AddEventTableViewController : AddLocationViewControllerDelegate {
+    func addLocationViewControllerDidCancel(controller: AddLocationViewController) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func addLocationViewController(controller: AddLocationViewController, didFinishAddingLocation placemark: MKPlacemark) {
+        self.selectedMapItem = placemark
+        
+        if self.selectedMapItem != nil {
+            self.eventLocationLabel.text = selectedMapItem.title
+        }
+        
+        self.navigationController?.popViewControllerAnimated(true)
     }
 }
 
