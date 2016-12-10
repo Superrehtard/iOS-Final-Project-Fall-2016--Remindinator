@@ -49,16 +49,12 @@ class RegistrationViewController: UIViewController {
     // This function is called once the user taps on the signUp button. This function registers a user.
     @IBAction func signUpBTN(sender: AnyObject) {
         let user = PFUser()
-        // TO DO:
-        // Implement validations (password matching etc..,)
-        
-        
         
         user.username = userNameTF.text!
         user.password = passwordTF.text!
         user.email = emailOrUserNameTF.text!
         
-        let image = UIImage(named: "Gender Neutral User Filled-100")
+        let image = UIImage(named: "DefaultImage")
         let imageData = UIImagePNGRepresentation(image!)
         let imageFile = PFFile(name: userNameTF.text!, data: imageData!)
         
@@ -78,7 +74,6 @@ class RegistrationViewController: UIViewController {
             user.signUpInBackgroundWithBlock {
                 succeded, error in
                 if succeded {
-//                    user.saveInBackground()
                     print(PFUser.currentUser()?.username)
                     self.performSegueWithIdentifier("SignUpSuccessful", sender: self)
                     
@@ -102,12 +97,5 @@ class RegistrationViewController: UIViewController {
             }
             
         }
-    }
-    
-    func displayAlertWithTitle(title:String, message:String){
-        let alert:UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        let defaultAction:UIAlertAction =  UIAlertAction(title: "OK", style: .Default, handler: nil)
-        alert.addAction(defaultAction)
-        self.presentViewController(alert, animated: true, completion: nil)
     }
 }

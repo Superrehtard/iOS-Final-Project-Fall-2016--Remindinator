@@ -9,7 +9,7 @@
 import UIKit
 import EventKit
 
-class DashboardTableViewController: PFQueryTableViewController, AddEventTableViewControllerDelegate {
+class DashboardTableViewController: PFQueryTableViewController {
     
     var eventsPopulated:[UserEvent] = []
     var eventStore:EKEventStore!
@@ -21,12 +21,6 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         self.eventStore = appDelegate.eventStore
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -34,14 +28,86 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
         loadObjects()
     }
     
-    override func queryForTable() -> PFQuery {
-        let query = UserEvent.queryForDashboardEvents()
-        return query!
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    //This function is called everytime the view appears and it loads all the userevents into the eventsPopulated array.
+    func loadEvents() {
+        self.eventsPopulated.removeAll()
+        
+        let query = UserEvent.query()
+        
+        query!.findObjectsInBackgroundWithBlock {
+            (objects: [PFObject]?, error: NSError?) -> Void in
+            
+            if error == nil {
+                dispatch_async(dispatch_get_main_queue()) {
+                    if objects?.count > 0 {
+                        for object in objects! {
+                            self.eventsPopulated.append(object as! UserEvent)
+                        }
+                    }
+                    print("Successfully fetched all userEvents")
+                }
+            } else {
+                if let error = error {
+                    print("Something has gone terribly wrong! \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    //Function that return the event for which the user has clicked on the edit button.
+    func eventSelectedToEdit(cell:UITableViewCell) -> UserEvent {
+        
+        var eventSelected:UserEvent!
+        
+        for event in self.eventsPopulated {
+            if ((event.objectId?.compare((cell as! DashboardEventTableViewCell).objectId)) == .OrderedSame) {
+                eventSelected = event
+            }
+        }
+        
+        return eventSelected
+    }
+    
+    //Here all the segues are handled based on their identifiers.
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "AddEvent" {
+            let addEventVC = segue.destinationViewController as! AddEventTableViewController
+            
+            addEventVC.delegate = self
+        }
+        
+        if segue.identifier == "EditEvent" {
+            let editEventVC = segue.destinationViewController as! AddEventTableViewController
+            
+            editEventVC.delegate = self
+            
+            let touchPoint = (sender as! UIButton).convertPoint(CGPointZero, toView: self.tableView)
+            
+            editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(self.tableView.indexPathForRowAtPoint(touchPoint)!)!)
+        }
+        
+        if segue.identifier == "MakeMyEvent" {
+            let addEventVC = segue.destinationViewController as! AddEventTableViewController
+            
+            addEventVC.delegate = self
+            
+            let touchPoint = (sender as! UIButton).convertPoint(CGPointZero, toView: self.tableView)
+            
+            addEventVC.existingEventToAdd = eventSelectedToEdit(tableView.cellForRowAtIndexPath(self.tableView.indexPathForRowAtPoint(touchPoint)!)!)
+        }
+    }
+}
+
+extension DashboardTableViewController {
+    
+    override func queryForTable() -> PFQuery {
+        let query = UserEvent.queryForDashboardEvents()
+        return query!
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell? {
@@ -80,7 +146,6 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
                     if let imageData = imageData {
                         cell.userImage.image = UIImage(data:imageData)
                     }
-                    print("Successfully fetched image from the Backend.")
                 } else {
                     if let error = error {
                         print("Something has gone wrong when getting the userImage from the background: \(error.localizedDescription)")
@@ -88,7 +153,7 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
                 }
             }
         } else {
-            let image = UIImage(named: "Gender Neutral User Filled-100")
+            let image = UIImage(named: "DefaultImage")
             let imageData = UIImagePNGRepresentation(image!)
             let imageFile = PFFile(name: event.user.username, data: imageData!)
             
@@ -98,13 +163,13 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
             cell.userImage.image = image
         }
         
-        cell.eventName.text = event.name
+        cell.eventName.text = event.eventName
         cell.objectId = event.objectId
-        cell.eventReminderTime.text = dateFormatter.stringFromDate(event.time)
+        cell.eventReminderTime.text = dateFormatter.stringFromDate(event.eventDueDate)
         cell.user = event.user
         cell.addOrEditButton.tag = indexPath.row
         
-        if event.time.compare(NSDate()) == .OrderedDescending {
+        if event.eventDueDate.compare(NSDate()) == .OrderedDescending {
             if event.completed {
                 cell.eventReminderTime.textColor = UIColor.greenColor().colorWithAlphaComponent(0.75)
             }
@@ -117,6 +182,7 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
     
     // This functions tells which all table view cells can be deleted. Only event that are his own can be edited by the user.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        
         if let cell = tableView.cellForRowAtIndexPath(indexPath) as? DashboardEventTableViewCell {
             if cell.user.objectId?.compare((PFUser.currentUser()?.objectId)!) == .OrderedSame {
                 return true
@@ -132,7 +198,7 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
         let event = self.objectAtIndexPath(indexPath) as! UserEvent
         
         if event.user.objectId?.compare((PFUser.currentUser()?.objectId)!) == .OrderedSame {
-            let alertController = UIAlertController(title: event.name, message: .None, preferredStyle: .ActionSheet)
+            let alertController = UIAlertController(title: event.eventName, message: .None, preferredStyle: .ActionSheet)
             
             let callActionHandler = { (action:UIAlertAction!) -> Void in
                 
@@ -202,9 +268,8 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
                     for event in objects! {
                         if (((event as! UserEvent).objectId?.compare(cell.objectId!)) == .OrderedSame) {
                             dispatch_async(dispatch_get_main_queue()) {
-                                print((event as! UserEvent).calenderItemIdentifier)
+                                
                                 if (event as! UserEvent).calenderItemIdentifier != "" {
-                                    
                                     
                                     let reminderToDelete = self.eventStore.calendarItemWithIdentifier((event as! UserEvent).calenderItemIdentifier) as! EKReminder
                                     
@@ -214,15 +279,11 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
                                     }catch{
                                         print("An error occurred while removing the reminder from the Calendar database: \(error)")
                                     }
-                                    
                                 }
                                 
                                 event.deleteInBackground()
-                                
                                 print("Successfully fetched UserEvent and Deleted the Same!")
                             }
-                            
-                            //                            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
                         }
                     }
                 }
@@ -236,48 +297,9 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
         self.loadObjects()
         tableView.reloadData()
     }
-    
-    //This function is called everytime the view appears and it loads all the userevents into the eventsPopulated array.
-    func loadEvents() {
-        self.eventsPopulated.removeAll()
-        
-        let query = UserEvent.query()
-        
-        query!.findObjectsInBackgroundWithBlock {
-            (objects: [PFObject]?, error: NSError?) -> Void in
-            
-            if error == nil {
-                dispatch_async(dispatch_get_main_queue()) {
-                    if objects?.count > 0 {
-                        for object in objects! {
-                            self.eventsPopulated.append(object as! UserEvent)
-                        }
-                    }
-                    print(objects?.count)
-                    print("Successfully fetched all userEvents")
-                }
-            } else {
-                if let error = error {
-                    print("Something has gone terribly wrong! \(error.localizedDescription)")
-                }
-            }
-        }
-    }
-    
-    //Function that return the event for which the user has clicked on the edit button.
-    func eventSelectedToEdit(cell:UITableViewCell) -> UserEvent {
-        
-        var eventSelected:UserEvent!
-        
-        for event in self.eventsPopulated {
-            if ((event.objectId?.compare((cell as! DashboardEventTableViewCell).objectId)) == .OrderedSame) {
-                eventSelected = event
-            }
-        }
-        
-        return eventSelected
-    }
-    
+}
+
+extension DashboardTableViewController : AddEventTableViewControllerDelegate {
     func addEventTableViewControllerDidCancel(controller: AddEventTableViewController) {
         self.navigationController?.popViewControllerAnimated(true)
     }
@@ -306,12 +328,12 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
             
             if error == nil {
                 dispatch_async(dispatch_get_main_queue()) {
-                    userEvent!["name"] = event.name
-                    userEvent!["location"] = event.location
-                    userEvent!["notes"] = event.notes
+                    userEvent!["eventName"] = event.eventName
+                    userEvent!["eventLocation"] = event.eventLocation
+                    userEvent!["eventNotes"] = event.eventNotes
                     userEvent!["user"] = event.user
-                    userEvent!["reminderOn"] = event.reminderOn
-                    userEvent!["time"] = event.time
+                    userEvent!["isReminderOn"] = event.isReminderOn
+                    userEvent!["eventDueDate"] = event.eventDueDate
                     userEvent!["sharedToUsers"] = event.sharedToUsers
                     userEvent!["isPublic"] = event.isPublic
                     userEvent!["isShared"] = event.isShared
@@ -319,15 +341,15 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
                     
                     userEvent?.saveInBackground()
                     
-                    if event.calenderItemIdentifier != "" && event.reminderOn {
+                    if event.calenderItemIdentifier != "" && event.isReminderOn {
                         
                         
                         let reminderToEdit = self.eventStore.calendarItemWithIdentifier(event.calenderItemIdentifier) as! EKReminder
                         
-                        reminderToEdit.title = event.name
+                        reminderToEdit.title = event.eventName
                         reminderToEdit.completed = false
                         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                        let dueDateComponents = appDelegate.dateComponentFromNSDate(event.time)
+                        let dueDateComponents = appDelegate.dateComponentFromNSDate(event.eventDueDate)
                         reminderToEdit.dueDateComponents = dueDateComponents
                         reminderToEdit.alarms?.first?.absoluteDate = NSCalendar.currentCalendar().dateFromComponents(dueDateComponents)
                         reminderToEdit.calendar = self.eventStore.defaultCalendarForNewReminders()
@@ -342,9 +364,8 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
                             self.presentViewController(alert, animated: true, completion: nil)
                         }catch{
                             self.displayAlertWithTitle("Error!", message: "Error updating reminder :\(error)")
-                            print("Error creating and saving new reminder : \(error)")
                         }
-                    } else if event.calenderItemIdentifier != "" && !event.reminderOn {
+                    } else if event.calenderItemIdentifier != "" && !event.isReminderOn {
                         let reminderToDelete = self.eventStore.calendarItemWithIdentifier(event.calenderItemIdentifier) as! EKReminder
                         
                         
@@ -362,22 +383,20 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
                             print("Error deleting reminder : \(error)")
                         }
                         
-                    } else if event.calenderItemIdentifier == "" && event.reminderOn {
+                    } else if event.calenderItemIdentifier == "" && event.isReminderOn {
                         let reminder = EKReminder(eventStore: self.eventStore)
-                        reminder.title = event.name
+                        reminder.title = event.eventName
                         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                         
                         reminder.calendar = self.eventStore.defaultCalendarForNewReminders()
-                        reminder.dueDateComponents = appDelegate.dateComponentFromNSDate(event.time)
+                        reminder.dueDateComponents = appDelegate.dateComponentFromNSDate(event.eventDueDate)
                         
-                        let alarm = EKAlarm(absoluteDate: event.time)
+                        let alarm = EKAlarm(absoluteDate: event.eventDueDate)
                         
                         reminder.addAlarm(alarm)
                         
-                        // 2
                         do {
                             try self.eventStore.saveReminder(reminder, commit: true)
-//                            self.dismissViewControllerAnimated(true, completion: nil)
                         }catch{
                             print("Error creating and saving new reminder : \(error)")
                         }
@@ -396,46 +415,4 @@ class DashboardTableViewController: PFQueryTableViewController, AddEventTableVie
             }
         }
     }
-    
-    //Here all the segues are handled based on their identifiers.
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "AddEvent" {
-            let addEventVC = segue.destinationViewController as! AddEventTableViewController
-            
-            addEventVC.delegate = self
-        }
-        
-        if segue.identifier == "EditEvent" {
-            let editEventVC = segue.destinationViewController as! AddEventTableViewController
-            
-            editEventVC.delegate = self
-            
-            let touchPoint = (sender as! UIButton).convertPoint(CGPointZero, toView: self.tableView)
-            
-            editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(self.tableView.indexPathForRowAtPoint(touchPoint)!)!)
-            
-            //            if let indexPath = self.tableView.indexPathForCell(sender as! DashboardEventTableViewCell) {
-            //                editEventVC.eventToEdit = eventSelectedToEdit(tableView.cellForRowAtIndexPath(indexPath)!)
-            //            }
-        }
-        
-        if segue.identifier == "MakeMyEvent" {
-            let addEventVC = segue.destinationViewController as! AddEventTableViewController
-            
-            addEventVC.delegate = self
-            
-            let touchPoint = (sender as! UIButton).convertPoint(CGPointZero, toView: self.tableView)
-            
-            addEventVC.existingEventToAdd = eventSelectedToEdit(tableView.cellForRowAtIndexPath(self.tableView.indexPathForRowAtPoint(touchPoint)!)!)
-        }
-    }
-    
-    func displayAlertWithTitle(title:String, message:String){
-        let alert:UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        let defaultAction:UIAlertAction =  UIAlertAction(title: "OK", style: .Default, handler: nil)
-        alert.addAction(defaultAction)
-        self.presentViewController(alert, animated: true, completion: nil)
-        
-    }
-    
 }

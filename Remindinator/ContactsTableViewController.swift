@@ -17,23 +17,28 @@ class ContactsTableViewController: PFQueryTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func viewWillAppear(animated: Bool) {
         loadObjects()
     }
     
+    // cancel adding contacts.
+    @IBAction func cancelAddingContacts(sender: AnyObject) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    @IBAction func doneAddingContacts(sender: AnyObject) {
+        
+    }
+    
+}
+
+extension ContactsTableViewController {
     // this query gets the objects neccessary for the tableview.
     override func queryForTable() -> PFQuery {
         let query = PFUser.query()
@@ -68,17 +73,6 @@ class ContactsTableViewController: PFQueryTableViewController {
         if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ContactTableViewCell {
             let query = PFUser.query()
             query?.whereKey("username", equalTo: (cell.contactName?.text)!)
-            // Need to find out why the below approach is not preferred and why it is crashing the app.
-            //            do {
-            //                let users = try query?.findObjects()
-            //
-            //                selecetdUser = users![0] as? PFUser
-            //
-            //
-            //            } catch let error as NSError {
-            //                print("Something went wrong \(error.localizedDescription)")
-            //            }
-            
             
             // Gets all the userEvent object that was selected.
             query!.findObjectsInBackgroundWithBlock {
@@ -116,14 +110,4 @@ class ContactsTableViewController: PFQueryTableViewController {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
-    
-    // cancel adding contacts.
-    @IBAction func cancelAddingContacts(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
-    @IBAction func doneAddingContacts(sender: AnyObject) {
-        
-    }
-    
 }

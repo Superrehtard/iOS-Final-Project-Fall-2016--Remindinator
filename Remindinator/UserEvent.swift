@@ -13,27 +13,71 @@ import EventKit
 class UserEvent : PFObject {
     
     // Some of the essential user event attributes. We will be adding some extra properties in the future.
-    @NSManaged var name:String
-    @NSManaged var time:NSDate
-    @NSManaged var reminderOn:Bool
+    @NSManaged var eventName:String
+    @NSManaged var eventDueDate:NSDate
+    @NSManaged var isReminderOn:Bool
     @NSManaged var isPublic:Bool
     @NSManaged var isShared:Bool
-    @NSManaged var location:String?
-    @NSManaged var notes:String?
-    @NSManaged var user:PFUser
+    @NSManaged var eventLocation:String?
+    @NSManaged var eventNotes:String?
     @NSManaged var sharedToUsers:[PFUser]
+    
+    
     @NSManaged var calenderItemIdentifier:String
     @NSManaged var completed:Bool
     @NSManaged var completionDate:NSDate?
     
+    @NSManaged var user:PFUser
+    
+    func getSharedContacts() -> [PFUser]? {
+        return self.sharedToUsers
+    }
+    
+    // Initializer for UserEvent Class
+    init(eventName:String, isReminderOn:Bool, eventDueDate:NSDate, eventLocation:String?, user:PFUser, eventNotes:String?) {
+        super.init()
+        self.eventName = eventName
+        self.eventLocation = eventLocation
+        self.user = user
+        self.isReminderOn = isReminderOn
+        self.eventDueDate = eventDueDate
+        self.eventNotes = eventNotes
+        self.sharedToUsers = []
+        self.isPublic = false
+        self.isShared = false
+        self.completed = false
+    }
+    
+    override init() {
+        super.init()
+    }
+}
+
+extension UserEvent {
     
     // Funciton that returns a query on the PFObject(in this particular case the PFObject is UserEvent)
     override class func query() -> PFQuery? {
         let query = PFQuery(className: UserEvent.parseClassName())
         
+        
         query.includeKey("user")
         
         query.orderByDescending("createdAt")
+        
+        return query
+    }
+    
+    class func queryForDashboardEvents() -> PFQuery? {
+        let publicEvents = PFQuery(className:UserEvent.parseClassName())
+        publicEvents.whereKey("isPublic", equalTo:true)
+        
+        let sharedEvents = PFQuery(className:UserEvent.parseClassName())
+        sharedEvents.whereKey("sharedToUsers", equalTo:PFUser.currentUser()!)
+        
+        let query = PFQuery.orQueryWithSubqueries([publicEvents, sharedEvents])
+        
+        query.includeKey("user")
+        query.orderByDescending("eventDueDate")
         
         return query
     }
@@ -55,50 +99,12 @@ class UserEvent : PFObject {
         let now:NSDate = NSDate()
         
         let query = PFQuery(className: UserEvent.parseClassName())
-        query.whereKey("time", lessThanOrEqualTo: now)
+        query.whereKey("eventDueDate", lessThanOrEqualTo: now)
         
         query.includeKey("user")
-        query.orderByDescending("time")
+        query.orderByDescending("eventDueDate")
         
         return query
-    }
-    
-    class func queryForDashboardEvents() -> PFQuery? {
-        let publicEvents = PFQuery(className:UserEvent.parseClassName())
-        publicEvents.whereKey("isPublic", equalTo:true)
-        
-        let sharedEvents = PFQuery(className:UserEvent.parseClassName())
-        sharedEvents.whereKey("sharedToUsers", equalTo:PFUser.currentUser()!)
-        
-        let query = PFQuery.orQueryWithSubqueries([publicEvents, sharedEvents])
-        
-        query.includeKey("user")
-        query.orderByDescending("time")
-        
-        return query
-    }
-    
-    func getSharedContacts() -> [PFUser]? {
-        return self.sharedToUsers
-    }
-    
-    // Initializer for UserEvent Class
-    init(name:String, reminderOn:Bool, time:NSDate, location:String?, user:PFUser, notes:String?) {
-        super.init()
-        self.name = name
-        self.location = location
-        self.user = user
-        self.reminderOn = reminderOn
-        self.time = time
-        self.notes = notes
-        self.sharedToUsers = []
-        self.isPublic = false
-        self.isShared = false
-        self.completed = false
-    }
-    
-    override init() {
-        super.init()
     }
 }
 
@@ -108,11 +114,4 @@ extension UserEvent : PFSubclassing {
     class func parseClassName() -> String {
         return "UserEvent"
     }
-    
-    //    override class func initialize() {
-    //        var onceToken: dispatch_once_t = 0
-    //        dispatch_once(&onceToken) {
-    //            self.registerSubclass()
-    //        }
-    //    }
 }

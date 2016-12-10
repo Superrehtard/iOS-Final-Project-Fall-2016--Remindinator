@@ -86,9 +86,9 @@ class UpcomingEventsTableViewController: PFQueryTableViewController {
             cell.userImage.image = image
         }
         
-        cell.eventName.text = event.name
+        cell.eventName.text = event.eventName
         cell.objectId = event.objectId
-        cell.eventReminderTime.text = dateFormatter.stringFromDate(event.time)
+        cell.eventReminderTime.text = dateFormatter.stringFromDate(event.eventDueDate)
         cell.user = event.user
 //        cell.addOrEditButton.tag = indexPath.row
         

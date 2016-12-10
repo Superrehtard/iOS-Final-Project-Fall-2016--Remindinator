@@ -16,7 +16,7 @@ protocol AddEventTableViewControllerDelegate : class {
     func addEventTableViewController(controller: AddEventTableViewController, didFinishEditingEvent event: UserEvent)
 }
 
-class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
+class AddEventTableViewController : UITableViewController {
     
     // Stored properties.
     var datePickerVisible = false
@@ -67,24 +67,26 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
         if let event = eventToEdit {
             self.title = "Edit Event"
             
-            self.eventNameTextField.text = event.name
+            self.eventNameTextField.text = event.eventName
             self.isPublicToggleSwitch.on = event.isPublic
             self.isSharedToggleSwitch.on = event.isShared
-            self.reminderToggleSwitch.on = event.reminderOn
-            self.dueDate = event.time
+            self.reminderToggleSwitch.on = event.isReminderOn
+            self.notesTextView.text = event.eventNotes
+            self.dueDate = event.eventDueDate
             self.sharedContacts = event.sharedToUsers
-            self.locationTextField.text = event.location
+            self.locationTextField.text = event.eventLocation
             self.updateEventDateLabel()
             self.updateSharedContactsLabel()
         }
         
         if let event = existingEventToAdd {
-            self.eventNameTextField.text = event.name
+            self.eventNameTextField.text = event.eventName
             self.isPublicToggleSwitch.on = event.isPublic
             self.isSharedToggleSwitch.on = event.isShared
-            self.reminderToggleSwitch.on = event.reminderOn
-            self.dueDate = event.time
-            self.locationTextField.text = event.location
+            self.reminderToggleSwitch.on = event.isReminderOn
+            self.notesTextView.text = event.eventNotes
+            self.dueDate = event.eventDueDate
+            self.locationTextField.text = event.eventLocation
             self.updateEventDateLabel()
             self.sharedContacts = event.sharedToUsers
             self.updateSharedContactsLabel()
@@ -109,7 +111,7 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
             }
             
             // creating the UserEvent based on the user input.
-            let event = UserEvent(name: eventNameTextField.text!,reminderOn:self.reminderToggleSwitch.on, time: self.dueDate, location: self.locationTextField?.text!, user: PFUser.currentUser()!, notes: self.notesTextView?.text!)
+            let event = UserEvent(eventName: eventNameTextField.text!,isReminderOn:self.reminderToggleSwitch.on, eventDueDate: self.dueDate, eventLocation: self.locationTextField?.text!, user: PFUser.currentUser()!, eventNotes: self.notesTextView?.text!)
             event.isPublic = self.isPublicToggleSwitch.on
             event.isShared = self.isSharedToggleSwitch.on
             
@@ -133,7 +135,6 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
                 // 2
                 do {
                     try self.eventStore.saveReminder(reminder, commit: true)
-//                    dismissViewControllerAnimated(true, completion: nil)
                 }catch{
                     print("Error creating and saving new reminder : \(error)")
                 }
@@ -142,8 +143,6 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
                 
                 print(event.calenderItemIdentifier)
             }
-            
-            
             
             // Save the newly created userEvent.
             self.delegate?.addEventTableViewController(self, didFinishAddingEvent: event)
@@ -154,13 +153,13 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     func getUpdatedEvent(event: UserEvent) {
         getEventDate()
         
-        event.name = eventNameTextField.text!
-        event.reminderOn = self.reminderToggleSwitch.on
-        event.time = self.dueDate
+        event.eventName = eventNameTextField.text!
+        event.isReminderOn = self.reminderToggleSwitch.on
+        event.eventDueDate = self.dueDate
         event.isPublic = self.isPublicToggleSwitch.on
         event.isShared = self.isSharedToggleSwitch.on
-        event.location = self.locationTextField?.text!
-        event.notes = self.notesTextView?.text!
+        event.eventLocation = self.locationTextField?.text!
+        event.eventNotes = self.notesTextView?.text!
         
         if self.reminderToggleSwitch.on {
             updateEventDateLabel()
@@ -180,6 +179,16 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
         self.updateEventDateLabel()
     }
     
+    // Function called whenever the isShared switch is toggled.
+    @IBAction func isSharedValueChanged(sender: AnyObject) {
+        tableView.reloadData()
+    }
+    
+    // function called whenever the reminder switch is toggled.
+    @IBAction func reminderSwitchValueChanged(sender: AnyObject) {
+        tableView.reloadData()
+    }
+    
     func getEventDate() {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .MediumStyle
@@ -196,16 +205,6 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     
     func updateSharedContactsLabel() {
         self.contactsAddedLabel.text = "\(self.sharedContacts.count) People Added."
-    }
-    
-    // Function called whenever the isShared switch is toggled.
-    @IBAction func isSharedValueChanged(sender: AnyObject) {
-        tableView.reloadData()
-    }
-    
-    // function called whenever the reminder switch is toggled.
-    @IBAction func reminderSwitchValueChanged(sender: AnyObject) {
-        tableView.reloadData()
     }
     
     func showDatePicker() {
@@ -247,6 +246,41 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
             tableView.endUpdates()
         }
     }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    // Unwind segue from contactsViewController to Add event page.
+    @IBAction func unwindSegueForContacts(segue: UIStoryboardSegue) {
+        let contactsTV = segue.sourceViewController as! ContactsTableViewController
+        
+        self.sharedContacts = contactsTV.contacts
+        
+        self.contactsAddedLabel.text = "\(self.sharedContacts.count) People Added."
+    }
+    
+    // function is called when user cancels adding a event.
+    @IBAction func cancelAddingEvent(sender: AnyObject) {
+        delegate?.addEventTableViewControllerDidCancel(self)
+    }
+    
+    // MARK: - Navigation
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        // This segment persists the contacts added from and to contacts view controller.
+        if segue.identifier == "Contacts_Segue" {
+            let contactsTV = segue.destinationViewController as! ContactsTableViewController
+            
+            contactsTV.contacts = self.sharedContacts
+        }
+    }
+}
+
+// extenstion to group all the tableview delegate methods.
+extension AddEventTableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -306,14 +340,14 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
                 return 0.0
             }
         }
-//        
-//        if indexPath.section == 2 && indexPath.row == 1 {
-//            if reminderToggleSwitch.on {
-//                return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
-//            } else {
-//                return 0.0
-//            }
-//        }
+        //
+        //        if indexPath.section == 2 && indexPath.row == 1 {
+        //            if reminderToggleSwitch.on {
+        //                return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+        //            } else {
+        //                return 0.0
+        //            }
+        //        }
         
         if indexPath.section == 2 && indexPath.row == 2 {
             return 217
@@ -326,27 +360,11 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 44.0
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // Unwind segue from contactsViewController to Add event page.
-    @IBAction func unwindSegueForContacts(segue: UIStoryboardSegue) {
-        let contactsTV = segue.sourceViewController as! ContactsTableViewController
-        
-        self.sharedContacts = contactsTV.contacts
-        
-        self.contactsAddedLabel.text = "\(self.sharedContacts.count) People Added."
-    }
-    
-    // function is called when user cancels adding a event.
-    @IBAction func cancelAddingEvent(sender: AnyObject) {
-        delegate?.addEventTableViewControllerDidCancel(self)
-        
-//        self.navigationController?.popViewControllerAnimated(true)
-    }
+}
+
+//extension to group all the text field delegate methods.
+
+extension AddEventTableViewController : UITextFieldDelegate {
     
     // This funciton enables or disabled eventName textfield based on its contents.
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
@@ -374,20 +392,4 @@ class AddEventTableViewController: UITableViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-    
-    
-    // MARK: - Navigation
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        // This segment persists the contacts added from and to contacts view controller.
-        if segue.identifier == "Contacts_Segue" {
-            let contactsTV = segue.destinationViewController as! ContactsTableViewController
-            
-            contactsTV.contacts = self.sharedContacts
-        }
-    }
-    
-    
-    
 }

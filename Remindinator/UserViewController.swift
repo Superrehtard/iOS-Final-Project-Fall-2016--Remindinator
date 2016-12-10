@@ -45,7 +45,7 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 }
             }
         } else {
-            let image = UIImage(named: "Gender Neutral User Filled-100")
+            let image = UIImage(named: "DefaultImage")
             let imageData = UIImagePNGRepresentation(image!)
             let imageFile = PFFile(name: user.username, data: imageData!)
             

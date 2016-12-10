@@ -20,12 +20,10 @@ class LoginViewController: UIViewController {
         
         super.viewDidLoad()
         assignbackground()
-//        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "Background.png")!)
         
         // if there is user logged in already navigate to the dashboard.
         if PFUser.currentUser() != nil {
                 self.performSegueWithIdentifier("LoginSuccessful", sender: self)
-//            self.performSegueWithIdentifier("LoginToDashboard", sender: self)
         }
         
     }
@@ -73,14 +71,4 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func displayAlertWithTitle(title:String, message:String){
-        let alert:UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        let defaultAction:UIAlertAction =  UIAlertAction(title: "OK", style: .Default, handler: nil)
-        alert.addAction(defaultAction)
-        self.presentViewController(alert, animated: true, completion: nil)
-        
-    }
-    
-    
 }
